@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'money'
+        'money',
+        'card_id'
     ];
 
     /**
@@ -53,5 +54,37 @@ class User extends Authenticatable
     public function deck()
     {
         return $this->hasMany(Deck::class);
+    }
+
+    public function card()
+    {
+        return $this->hasMany(Card::class);
+    }
+
+     /**
+     * @return money devuelve el dinero del usuario
+     */
+    public function get_money()
+    {
+        try {
+            return $this->money;
+        } catch (Error $e) {
+            return ['status'=>500,'value'=>$e];
+        }
+    }
+
+     /**
+     * @return money devuelve el dinero del usuario
+     */
+    public function set_money($cantidad=0)
+    {
+        try {
+            if (! is_int($cantidad)) return null;
+
+            $this->money = $cantidad;
+            $this->save();
+        } catch (Error $e) {
+            return ['status'=>500,'value'=>$e];
+        }
     }
 }

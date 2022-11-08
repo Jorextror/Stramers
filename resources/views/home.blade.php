@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {{ /* TODO Crear menú principal (VS/MAZO/TIENDA)  */ }}
                     {{ __('You are logged in!') }}
                 </div>
             </div>

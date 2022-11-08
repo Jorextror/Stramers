@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Card extends Model
 {
     protected $table = 'cards';
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory,SoftDeletes;
     protected $fillable = [
         'name',
         'category',
@@ -20,6 +19,19 @@ class Card extends Model
         'dmg',
         'life',
     ];
+    /**
+     * Relaciones
+     */
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function deck()
+    {
+        return $this->belongsToMany(Deck::class);
+    }
 
     /**
      * @return Array devuelve todas las cartas

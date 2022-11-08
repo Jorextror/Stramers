@@ -14,19 +14,25 @@ return new class extends Migration
     public function up()
     {
         Schema::create('decks', function (Blueprint $table) {
+            $table->id()->unique();
             $table->foreignId('user_id')->references('id')->on('users');
+            // $table->foreignId('card_id')->references('id')->on('cards');
             $table->char('name');
-            $table->json('cards');
             $table->tinyInteger('selected');
+            $table->timestamps();
+            $table->timestamp('eliminated_at');
         });
 
         Schema::create('cards', function (Blueprint $table) {
+            $table->id()->unique();
             $table->string('name');
             $table->string('category');
             $table->string('type');
             $table->integer('cost');
             $table->integer('dmg');
             $table->integer('life');
+            $table->timestamps();
+            $table->timestamp('eliminated_at');
         });
     }
 

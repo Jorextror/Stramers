@@ -20,9 +20,12 @@ return new class extends Migration
             // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('money');
-            $table->string('cards')->nullable();
+            // $table->foreignId('card_id')->references('id')->on('cards');
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('eliminated_at');
+
+
         });
     }
 

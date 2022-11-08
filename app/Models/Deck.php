@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deck extends Model
 {
-    use HasFactory;
-    //TODO Crear todo el modelo Deck
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'cards';
-    use HasFactory;
-    use SoftDeletes;
+    protected $table = 'decks';
     protected $fillable = [
         'user_id',
         'name',
@@ -47,7 +44,6 @@ class Deck extends Model
             $deck = Deck::query()
                ->where('id',$deck_id)
                ->get();
-
             if (! empty($card)) {
                 return ['status'=> 200, 'value'=>$deck];
             }else{
