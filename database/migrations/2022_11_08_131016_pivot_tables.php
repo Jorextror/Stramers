@@ -15,14 +15,14 @@ return new class extends Migration
     {
         //Tabla pivot mazos - cartas
         Schema::create('decks_cards', function (Blueprint $table) {
-            $table->integer('id_deck');
-            $table->integer('id_card');
+            $table->integer('deck_id');
+            $table->integer('card_id');
         });
 
         //Tabla pivot usuario - cartas
         Schema::create('user_cards', function (Blueprint $table) {
-            $table->integer('id_user');
-            $table->integer('id_card');
+            $table->integer('user_id');
+            $table->integer('card_id');
         });
     }
 

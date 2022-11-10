@@ -20,7 +20,7 @@ return new class extends Migration
             $table->char('name');
             $table->tinyInteger('selected');
             $table->timestamps();
-            $table->timestamp('eliminated_at');
+            $table->timestamp('deleted_at');
         });
 
         Schema::create('cards', function (Blueprint $table) {
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->integer('dmg');
             $table->integer('life');
             $table->timestamps();
-            $table->timestamp('eliminated_at');
+            $table->timestamp('deleted_at');
         });
     }
 
