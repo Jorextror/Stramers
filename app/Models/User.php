@@ -26,7 +26,8 @@ class User extends Authenticatable
         'password',
         'money',
         'card_id',
-        'nick'
+        'nick',
+        'superadmin'
     ];
 
     /**
@@ -88,4 +89,13 @@ class User extends Authenticatable
             return ['status'=>500,'value'=>$e];
         }
     }
+
+    /**
+     * @return boolean devuelve si el usuario es super admin o no
+     */
+    public function is_sa()
+    {
+        return $this->superadmin;
+    }
+
 }

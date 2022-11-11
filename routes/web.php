@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CartaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MazoController;
 use App\Http\Controllers\PrePartidaController;
 use App\Http\Controllers\TiendaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,5 +35,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
 
     // Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
+    Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
 
 });
