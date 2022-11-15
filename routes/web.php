@@ -35,6 +35,10 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
 
     // Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
+
     Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
+
+    Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
+
 
 });

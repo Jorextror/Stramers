@@ -1,5 +1,7 @@
 <?php
 
+use App\Custom\CartaFacade;
+use App\Providers\CartaServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -181,6 +183,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        CartaServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -210,6 +213,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        'Carta' => CartaFacade::class,
     ])->toArray(),
 
 ];

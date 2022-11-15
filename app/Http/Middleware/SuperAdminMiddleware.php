@@ -17,12 +17,7 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $blockAccess = true;
-        if(Auth::user()->is_sa())$blockAccess = false;
-
-          if($blockAccess){
-              return back()->with('message', ['danger', 'No eres Admin no tienes privilegios para acceder']);
-          }
-          return $next($request);
+        if(! Auth::user()->is_sa())return back();
+        return $next($request);
     }
 }

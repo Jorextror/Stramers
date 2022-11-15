@@ -6,6 +6,10 @@ use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class Card extends Model
 {
@@ -18,6 +22,9 @@ class Card extends Model
         'cost',
         'dmg',
         'life',
+        'usos',
+        'text',
+        'img'
     ];
     /**
      * Relaciones
@@ -94,4 +101,29 @@ class Card extends Model
         }
     }
     //TODO añadir más maneras de buscar cartas
+
+    /**
+     * @param request Información del formulario
+     *
+     * @return Object
+     */
+    public function set_new_card(Request $request)
+    {
+        try {
+            $card = new Card($request->input());
+            $card->img = $request->file('img')->storeAs('imgs',$request->name.".png");
+            $card->save();
+            //Cargamos la imagen guardada en una variable
+            $img = Image::make(Storage::get($card->img));
+            //La reescalamos
+            $img->resize(274, 364)->encode();
+            //La volvemos a guardar
+            Storage::put($card->img, (string) $img);
+
+            return ['status'=>200,'value'=>$card];
+
+        } catch (Error $e) {
+            return ['status'=>500,'value'=>$e];
+        }
+    }
 }
