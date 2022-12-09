@@ -16,7 +16,7 @@
                     @endif
                     {{ __('You are logged in!') }}
                     <div class="container">
-                        <x-carta imagen='https://sites.google.com/site/alvaroinformaticalosolivos/_/rsrc/1399533891139/home/mister-jagger/mister%20jagger.jpg?height=200&width=200' nombre='Mister Jagger' categoria='legendaria' vida='10' dmg='10' coste='10'></x-carta>
+                        <x-carta imagen='http://stramers.test/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta>
                     </div>
                 </div>
             </div>

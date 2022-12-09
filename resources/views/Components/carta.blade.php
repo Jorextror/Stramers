@@ -60,7 +60,7 @@
         text-shadow: rgb(255, 255, 255) 1px 0 10px;
     }
     .coste_{
-        background-color:rgb(78, 78, 78);
+        background-color:rgba(78, 78, 78, 0);
         position: absolute;
         top: 310px;
         left: 115px;

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Card;
 use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     /**
@@ -22,6 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home')->with(["carta"=>Card::get_card_by_id(3)["value"]->first()]);
     }
 }

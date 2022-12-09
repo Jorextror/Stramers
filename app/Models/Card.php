@@ -24,7 +24,8 @@ class Card extends Model
         'life',
         'usos',
         'text',
-        'img'
+        'img',
+        'obtainable'
     ];
     /**
      * Relaciones
@@ -43,7 +44,7 @@ class Card extends Model
     /**
      * @return Array devuelve todas las cartas
      */
-    public function get_all()
+    public static function get_all()
     {
         try {
             return['status'=>200,'value'=> Card::query()
@@ -62,7 +63,7 @@ class Card extends Model
      *
      * @return Object devuelve la carta especificada por id
      */
-    public function get_card_by_id($card_id)
+    public static function get_card_by_id($card_id)
     {
         try {
             $card = Card::query()
@@ -84,7 +85,7 @@ class Card extends Model
      *
      * @return Object devuelve la carta especificada por id
      */
-    public function get_card_by_name($card_name)
+    public static function get_card_by_name($card_name)
     {
         try {
             $card = Card::query()
@@ -107,23 +108,19 @@ class Card extends Model
      *
      * @return Object
      */
-    public function set_new_card(Request $request)
+    public static function set_new_card(Request $request)
     {
-        try {
-            $card = new Card($request->input());
-            $card->img = $request->file('img')->storeAs('imgs',$request->name.".png");
-            $card->save();
-            //Cargamos la imagen guardada en una variable
-            $img = Image::make(Storage::get($card->img));
-            //La reescalamos
-            $img->resize(274, 364)->encode();
-            //La volvemos a guardar
-            Storage::put($card->img, (string) $img);
 
-            return ['status'=>200,'value'=>$card];
+        $card = new Card($request->input());
+        $card->img = $request->file('img')->storeAs('imgs',$request->name.".png");
+        $card->save();
+        //Cargamos la imagen guardada en una variable
+        $img = Image::make(Storage::get($card->img));
+        //La reescalamos
+        $img->resize(274, 364)->encode();
+        //La volvemos a guardar
+        Storage::put($card->img, (string) $img);
 
-        } catch (Error $e) {
-            return ['status'=>500,'value'=>$e];
-        }
+        return $card;
     }
 }

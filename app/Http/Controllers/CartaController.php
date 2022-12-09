@@ -32,7 +32,7 @@ class CartaController extends Controller
         return view('carta');
     }
 
-     /**
+    /**
      * Recibe request valida con el Facade Carta y guarda carta en BBDD
      *
      * @return view

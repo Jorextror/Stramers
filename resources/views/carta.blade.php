@@ -125,11 +125,10 @@
 
                         <div class="row mb-3">
                             <label for="obtainable" class="col-md-4 col-form-label text-md-end">{{ __('Obtainable') }}</label>
-
                             <div class="col-md-6">
                                 <select name="obtainable" class="form-select" multiple aria-label="multiple select" required>
-                                    <option value="1">{{ __('Yes') }}</option>
-                                    <option value="0">{{ __('No') }}</option>
+                                    <option value=1>{{ __('Yes') }}</option>
+                                    <option value=0>{{ __('No') }}</option>
                                   </select>
 
                             </div>
