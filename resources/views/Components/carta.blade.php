@@ -68,28 +68,28 @@
         color:rgb(255, 255, 255);
         text-shadow: rgb(255, 255, 255) 1px 0 5px;
     }
-    </style>
+</style>
 
-    <div id="img">
-        <img src="img/{{ $categoria }}.png" alt="">
-        <span id="nombre" class="nombre">{{ $nombre }}</span>
-        @if(intval($vida)<9)
-            <span id="vida" class="vida_">{{ $vida }}</span>
-        @else
-            <span id="vida" class="vida">{{ $vida }}</span>
+<div id="img">
+    <img src="{{ asset("img/$categoria.png") }}" alt="">
+    <span id="nombre" class="nombre">{{ $nombre }}</span>
+    @if(intval($vida)<9)
+        <span id="vida" class="vida_">{{ $vida }}</span>
+    @else
+        <span id="vida" class="vida">{{ $vida }}</span>
 
-        @endif
+    @endif
 
-        @if(intval($dmg)<9)
-            <span id="dmg" class="dmg_">{{ $dmg }}</span>
-        @else
-            <span id="dmg" class="dmg">{{ $dmg }}</span>
-        @endif
+    @if(intval($dmg)<9)
+        <span id="dmg" class="dmg_">{{ $dmg }}</span>
+    @else
+        <span id="dmg" class="dmg">{{ $dmg }}</span>
+    @endif
 
-        @if(intval($coste)<9)
-            <span id="coste" class="coste_">{{ $coste }}</span>
-        @else
-            <span id="coste" class="coste">{{ $coste }}</span>
-        @endif
+    @if(intval($coste)<9)
+        <span id="coste" class="coste_">{{ $coste }}</span>
+    @else
+        <span id="coste" class="coste">{{ $coste }}</span>
+    @endif
 
-    </div>
+</div>

@@ -38,7 +38,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
 
+    Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
+
     Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
+
+    Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
+
 
 
 });

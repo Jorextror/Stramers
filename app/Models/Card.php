@@ -123,4 +123,37 @@ class Card extends Model
 
         return $card;
     }
+    /**
+     * @param request Carta a updatear
+     *
+     * @return Object
+     */
+    public static function update_card(Request $request)
+    {
+        $input = $request->all();
+        $card = Card::where('id',$input['id'])->first();
+        $card->name = $input['name'];
+        $card->category = $input['category'];
+        $card->type = $input['type'];
+        $card->cost = $input['cost'];
+        $card->life = $input['life'];
+        $card->text = $input['text'];
+        $card->dmg = $input['dmg'];
+        $card->obtainable = $input['obtainable'];
+        $card->updated_at = now();
+        if (isset($input["img"])) {
+            //Elimina la imagen anterior si existe
+            if (Storage::exists($card->img))Storage::delete($card->img);
+            // $card->img = $request->file('img')->storeAs('imgs',$request->name.".png");
+            $card->img = $request->file('img')->store('imgs');
+            //Cargamos la imagen guardada en una variable
+            $img = Image::make(Storage::get($card->img));
+            //La reescalamos
+            $img->resize(274, 364)->encode();
+            //La volvemos a guardar
+            Storage::put($card->img, (string) $img);
+        }
+        $card->save();
+        return $card;
+    }
 }
