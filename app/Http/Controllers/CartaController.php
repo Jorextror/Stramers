@@ -59,10 +59,9 @@ class CartaController extends Controller
             ->withErrors($respuesta["value"])
             ->withInput();
         }
-        $status = $this->card->set_new_card($respuesta["value"])["status"];
-        if ($status!==200) {
-            return view('carta',["failed"=>"An error was ocurred"]);
-        }
+        $card = $this->card->set_new_card($respuesta["value"]);
+        if (isset($card))return view('carta',["failed"=>"An error was ocurred"]);
+
         return view('carta',["success"=>"Card added succesfully"]);
     }
 
@@ -88,12 +87,12 @@ class CartaController extends Controller
             //  return view('updateCarta',["failed"=>"An error was ocurred"])->with("carta",$card["value"]);
             return redirect()
             ->route('updateCarta',[$request->input("id")])
-            ->with(["failed"=>"An error was ocurred","carta"=>$card["value"]]);
+            ->with(["failed"=>"An error was ocurred","carta"=>$card]);
          }
         //  return view('updateCarta',["success"=>"Card added succesfully"])->with("carta",$card["value"]);
 
         return redirect()
         ->route('updateCarta',[$request->input("id")])
-        ->with(["success"=>"Card added succesfully","carta"=>$card["value"]]);
+        ->with(["success"=>"Card added succesfully","carta"=>$card]);
      }
 }

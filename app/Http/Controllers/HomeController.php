@@ -25,5 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('home')->with(["carta"=>Card::get_card_by_id(3)["value"]->first()]);
+        // return view('home');
     }
 }

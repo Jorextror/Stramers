@@ -110,9 +110,8 @@ class Card extends Model
      */
     public static function set_new_card(Request $request)
     {
-
         $card = new Card($request->input());
-        $card->img = $request->file('img')->storeAs('imgs',$request->name.".png");
+        $card->img = $request->file('img')->store('imgs');
         $card->save();
         //Cargamos la imagen guardada en una variable
         $img = Image::make(Storage::get($card->img));
