@@ -1,6 +1,7 @@
 <?php
 namespace App\Custom\Carta;
 
+use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -59,6 +60,45 @@ class Carta
 
         }
     }
+
+    public static function genera_sobre(Request $request)
+    {
+        try {
+            $cartas = [];
+            $sobre = $request->all();
+            switch ($sobre) {
+                case 'normal':
+                    $cartas = Card::where('obtainable',true)
+                    ->where('category','comun')
+                    ->orwhere('category','pocoComun')
+                    ->random(5);
+                    break;
+
+                case 'supersobre':
+                    $cartas = Card::where('obtainable',true)
+                    ->where('category','comun')
+                    ->orwhere('category','pocoComun')
+                    ->orwhere('category','epica')
+                    ->random(5);
+                    break;
+
+                case 'megasobre':
+                    $cartas = Card::where('obtainable',true)
+                    ->orwhere('category','pocoComun')
+                    ->orwhere('category','epica')
+                    ->orwhere('category','epica')
+                    ->orwhere('category','legendaria')
+                    ->random(5);
+                    break;
+            }
+            return ['status'=>200, 'value'=>$cartas];
+        } catch (Exception $e) {
+            return ["status"=>500,"value"=>$e];
+
+        }
+    }
+
+
 
 }
 

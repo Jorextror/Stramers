@@ -17,4 +17,7 @@ use Illuminate\Support\Facades\Route;
 //TODO Crear rutas necesarias según lo que manda el Jordi
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+
 });
+
+

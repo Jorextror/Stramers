@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Carta\Carta;
 use Illuminate\Http\Request;
 
 class TiendaController extends Controller
@@ -24,6 +25,16 @@ class TiendaController extends Controller
     public function index()
     {
         return view('tienda');
+    }
+
+     /**
+     * Muestra la vista Tienda
+     *
+     */
+    //FIX reparar error 409
+    public function sobre(Request $request)
+    {
+        return "hola";
     }
 
 }
