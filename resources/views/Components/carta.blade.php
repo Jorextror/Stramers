@@ -2,7 +2,7 @@
     #img{
         position: relative;
     }
-    img{
+    #img img{
         background-image: url('{{ $imagen }}');
         box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
     }

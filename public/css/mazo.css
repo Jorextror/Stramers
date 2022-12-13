@@ -1,0 +1,15 @@
+#img_mazo{
+    position: relative;
+}
+.img_mazo img{
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+}
+.nombre_mazo{
+    position: absolute;
+    top: 120px;
+    left: 25px;
+    font-size:25px;
+    color:white;
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    text-align: center;
+}

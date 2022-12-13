@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="container">
-    <x-ruleta></x-ruleta>
+    <a href="{{  route("home") }}"><x-boton></x-boton></a>
+    <x-sobres></x-sobres>
 </div>
 @endsection

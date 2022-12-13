@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ruleta extends Component
+class Sobres extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class ruleta extends Component
      */
     public function render()
     {
-        return view('components.ruleta');
+        return view('components.sobres');
     }
 }

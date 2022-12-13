@@ -15,24 +15,22 @@ return new class extends Migration
     {
         Schema::create('decks', function (Blueprint $table) {
             $table->id()->unique();
-            $table->foreignId('user_id')->references('id')->on('users');
-            // $table->foreignId('card_id')->references('id')->on('cards');
             $table->char('name');
-            $table->tinyInteger('selected');
+            $table->boolean('selected');
             $table->timestamps();
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
         });
 
         Schema::create('cards', function (Blueprint $table) {
             $table->id()->unique();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('category');
             $table->string('type');
             $table->integer('cost');
             $table->integer('dmg');
             $table->integer('life');
             $table->timestamps();
-            $table->timestamp('deleted_at');
+            $table->softDeletes();
         });
     }
 

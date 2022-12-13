@@ -53,12 +53,12 @@ class User extends Authenticatable
      * Relaciones
      */
 
-    public function deck()
+    public function decks()
     {
         return $this->hasMany(Deck::class);
     }
 
-    public function card()
+    public function cards()
     {
         return $this->hasMany(Card::class);
     }

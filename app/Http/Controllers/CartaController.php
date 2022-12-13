@@ -80,17 +80,9 @@ class CartaController extends Controller
              ->route('updateCarta',[$request->input("id")])
              ->withErrors($respuesta["value"])
              ->withInput()
-             ->with("carta",$request);
+             ->with("carta",$request->all());
          }
          $card = $this->card->update_card($respuesta["value"]);
-         if ($card["status"]!==200) {
-            //  return view('updateCarta',["failed"=>"An error was ocurred"])->with("carta",$card["value"]);
-            return redirect()
-            ->route('updateCarta',[$request->input("id")])
-            ->with(["failed"=>"An error was ocurred","carta"=>$card]);
-         }
-        //  return view('updateCarta',["success"=>"Card added succesfully"])->with("carta",$card["value"]);
-
         return redirect()
         ->route('updateCarta',[$request->input("id")])
         ->with(["success"=>"Card added succesfully","carta"=>$card]);
