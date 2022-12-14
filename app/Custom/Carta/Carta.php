@@ -65,13 +65,15 @@ class Carta
     {
         try {
             $cartas = [];
-            $sobre = $request->all();
+            $sobre = $request->all()['data'];
             switch ($sobre) {
                 case 'normal':
                     $cartas = Card::where('obtainable',true)
                     ->where('category','comun')
                     ->orwhere('category','pocoComun')
-                    ->random(5);
+                    ->inRandomOrder()
+                    ->limit(5)
+                    ->get();
                     break;
 
                 case 'supersobre':
@@ -79,17 +81,22 @@ class Carta
                     ->where('category','comun')
                     ->orwhere('category','pocoComun')
                     ->orwhere('category','epica')
-                    ->random(5);
+                    ->inRandomOrder()
+                    ->limit(5)
+                    ->get();
                     break;
 
                 case 'megasobre':
                     $cartas = Card::where('obtainable',true)
                     ->orwhere('category','pocoComun')
                     ->orwhere('category','epica')
-                    ->orwhere('category','epica')
                     ->orwhere('category','legendaria')
-                    ->random(5);
+                    ->inRandomOrder()
+                    ->limit(5)
+                    ->get();
                     break;
+                default:
+                    return ['status'=>404, 'value'=>'Error, sobre no encontrado'];
             }
             return ['status'=>200, 'value'=>$cartas];
         } catch (Exception $e) {
@@ -97,8 +104,6 @@ class Carta
 
         }
     }
-
-
 
 }
 

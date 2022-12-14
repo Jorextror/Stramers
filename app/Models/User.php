@@ -3,10 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 //TODO Crear funciónes para modificación de usuarios (Quitar dinero, añadir dinero, ¿Avatar?)
@@ -27,7 +31,7 @@ class User extends Authenticatable
         'money',
         'card_id',
         'nick',
-        'superadmin'
+        'superadmin',
     ];
 
     /**
@@ -70,7 +74,7 @@ class User extends Authenticatable
     {
         try {
             return $this->money;
-        } catch (Error $e) {
+        } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }
@@ -85,7 +89,7 @@ class User extends Authenticatable
 
             $this->money = $cantidad;
             $this->save();
-        } catch (Error $e) {
+        } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }
@@ -96,6 +100,36 @@ class User extends Authenticatable
     public function is_sa()
     {
         return $this->superadmin;
+    }
+
+    /**
+     * @param Request
+     * @return Boolean
+     */
+    public static function AddCard(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $cartas_nuevas = $data['data'];
+            $user = User::query()->where('id',$data['user'])->first();
+            $card = new Card;
+            foreach ($cartas_nuevas as $key=>$value) {
+                $card->user()->attach($data['user'],['card_id'=>$value["id"]]);
+                // $card->user()->associate($value['id']);
+            }
+            return ['status'=>200, 'value'=> $user->cards];
+        } catch (Exception $e) {
+            return ['status'=>500, 'value'=>$e->getMessage()];
+        }
+    }
+
+    public function getCards()
+    {
+        try {
+            return $this->cards();
+        } catch (Exception $e) {
+            return ['status'=>500, 'value'=>$e->getMessage()];
+        }
     }
 
 }

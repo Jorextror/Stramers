@@ -44,6 +44,7 @@ class Card extends Model
     /**
      * @return Array devuelve todas las cartas
      */
+
     public static function get_all()
     {
         try {
@@ -155,4 +156,6 @@ class Card extends Model
         $card->save();
         return $card;
     }
+
+
 }

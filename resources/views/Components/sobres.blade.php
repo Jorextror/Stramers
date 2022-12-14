@@ -27,13 +27,30 @@
 
 <script>
     function sobre(categoria) {
+        let datos = {
+            'data': categoria,
+            '_token': '{{ csrf_token() }}'
+        }
+
         $.post({
             url: "{{ route('tienda.sobre') }}",
             async: false,
-            data: categoria,
+            data: datos,
             success: function(datos){
-                console.log(datos)
+                let data = {
+                                'user': '{{ Auth::user()->id }}',
+                                'data': datos,
+                                '_token': '{{ csrf_token() }}'
+                            }
+                $.post({
+                    async: false,
+                    data: data,
+                    url: "{{ route('user.card') }}",
+                    success: function(status){
+                        console.log(status)
+                    }
+                });
             }
-        })
+        });
     }
 </script>

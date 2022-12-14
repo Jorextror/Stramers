@@ -31,9 +31,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/tienda', [TiendaController::class, 'index'])->name('tienda');
+    Route::post('/sobre', [TiendaController::class, 'sobre'])->name('tienda.sobre');
+    Route::post('/AddUserCard', [TiendaController::class, 'addCardToUser'])->name('user.card');
 
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
-    Route::post('/sobre', [TiendaController::class, 'sobre'])->name('tienda.sobre');
 
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');

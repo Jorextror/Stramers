@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Carta\Carta;
+use App\Models\Card;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TiendaController extends Controller
@@ -28,13 +30,23 @@ class TiendaController extends Controller
     }
 
      /**
-     * Muestra la vista Tienda
+     * @param Request
+     * @return Array Cartas aleatorias según el mazo pasado por request
      *
      */
-    //FIX reparar error 409
     public function sobre(Request $request)
     {
-        return "hola";
+        return Carta::genera_sobre($request)['value'];
     }
+
+    /**
+     * @param Request
+     * @return Bool
+     */
+    public function addCardToUser(Request $request)
+    {
+        return User::AddCard($request);
+    }
+
 
 }
