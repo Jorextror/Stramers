@@ -59,12 +59,12 @@ class User extends Authenticatable
 
     public function decks()
     {
-        return $this->hasMany(Deck::class);
+        return $this->belongsToMany(Deck::class);
     }
 
     public function cards()
     {
-        return $this->hasMany(Card::class);
+        return $this->belongsToMany(Card::class);
     }
 
      /**
@@ -117,19 +117,9 @@ class User extends Authenticatable
                 $card->user()->attach($data['user'],['card_id'=>$value["id"]]);
                 // $card->user()->associate($value['id']);
             }
-            return ['status'=>200, 'value'=> $user->cards];
+            return ['status'=>200, 'value'=>$user->cards];
         } catch (Exception $e) {
             return ['status'=>500, 'value'=>$e->getMessage()];
         }
     }
-
-    public function getCards()
-    {
-        try {
-            return $this->cards();
-        } catch (Exception $e) {
-            return ['status'=>500, 'value'=>$e->getMessage()];
-        }
-    }
-
 }
