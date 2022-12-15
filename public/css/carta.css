@@ -1,0 +1,70 @@
+.img{
+    position: relative;
+}
+.img img{
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+}
+.img_fondo_legendaria{
+    left: 0px;
+    border-style: solid;
+    border-color:rgb(255, 166, 0);
+}
+.img_fondo_epica{
+    left: 0px;
+    border-style: solid;
+    border-color:rgb(174, 0, 255);
+}
+
+.img_fondo_pocoComun{
+    left: 0px;
+    border-style: solid;
+    border-color:rgb(0, 132, 255);
+}
+.img_fondo_comun{
+    left: 0px;
+    border-style: solid;
+    border-color:rgb(93, 93, 93);
+}
+
+.nombre{
+    position: absolute;
+    top: 30px;
+    left: 25px;
+    font-size:35px;
+    color:white;
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    text-align: center;
+}
+
+.vida{
+    position: absolute;
+    top: 280px;
+    left: 35px;
+    font-size:35px;
+    color:rgb(255, 255, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    text-align: center;
+
+}
+
+.dmg{
+    position: absolute;
+    top: 280px;
+    left: 205px;
+    font-size:35px;
+    color:rgb(255, 255, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    text-align: center;
+
+}
+
+.coste{
+    position: absolute;
+    top: 310px;
+    left: 110px;
+    font-size:50px;
+    color:rgb(255, 255, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 5px;
+    text-align: center;
+
+}

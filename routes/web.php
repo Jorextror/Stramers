@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
 
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
+
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');
 
 

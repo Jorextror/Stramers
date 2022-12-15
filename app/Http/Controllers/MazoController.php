@@ -38,7 +38,7 @@ class MazoController extends Controller
      */
     public function new()
     {
-        return view('createMazo', []);
+        return view('createMazo', ['cartas'=>Auth::user()->cards]);
     }
 
 }
