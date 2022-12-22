@@ -39,7 +39,7 @@
             success: function(datos){
                 let data = {
                                 'user': '{{ Auth::user()->id }}',
-                                'data': datos,
+                                'data': datos['id'],
                                 '_token': '{{ csrf_token() }}'
                             }
                 $.post({

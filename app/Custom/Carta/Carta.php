@@ -73,7 +73,9 @@ class Carta
                     ->orwhere('category','pocoComun')
                     ->inRandomOrder()
                     ->limit(5)
-                    ->get();
+                    ->get()
+                    ->toArray();
+
                     break;
 
                 case 'supersobre':
@@ -83,22 +85,30 @@ class Carta
                     ->orwhere('category','epica')
                     ->inRandomOrder()
                     ->limit(5)
-                    ->get();
+                    ->get()
+                    ->toArray();
+
                     break;
 
                 case 'megasobre':
                     $cartas = Card::where('obtainable',true)
-                    ->orwhere('category','pocoComun')
+                    ->where('category','pocoComun')
                     ->orwhere('category','epica')
                     ->orwhere('category','legendaria')
                     ->inRandomOrder()
                     ->limit(5)
-                    ->get();
+                    ->get()
+                    ->toArray();
                     break;
                 default:
                     return ['status'=>404, 'value'=>'Error, sobre no encontrado'];
             }
-            return ['status'=>200, 'value'=>$cartas];
+
+            $id = array_map(function($carta){
+                return $carta['id'];
+            },$cartas);
+
+            return ['status'=>200, 'value'=>['id'=>$id,'cards'=>$cartas]];
         } catch (Exception $e) {
             return ["status"=>500,"value"=>$e];
 
