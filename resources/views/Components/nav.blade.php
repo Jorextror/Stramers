@@ -37,7 +37,6 @@
                         </li>
                     @endif
                 @else
-
                 <li class="nav-item text-muted bg-dark">
                     <div class="container navbar-nav ">
                         {{ Auth::user()->money }}

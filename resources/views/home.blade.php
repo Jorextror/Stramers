@@ -16,7 +16,7 @@
                     @endif
                     {{ __('You are logged in!') }}
                     <div class="container">
-                        <x-carta imagen='/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta>
+                        {{-- <x-carta imagen='/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta> --}}
                     </div>
                 </div>
             </div>
