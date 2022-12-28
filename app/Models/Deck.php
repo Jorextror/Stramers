@@ -5,6 +5,7 @@ use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Deck extends Model
 {
@@ -73,6 +74,25 @@ class Deck extends Model
             }
         } catch (Error $e) {
             return ['status'=>500,'value'=>$e];
+        }
+    }
+
+    public static function create(Request $request)
+    {
+        try {
+
+            $deck = new Deck();
+            $deck->name = $request->input('name');
+            $deck->selected = false;
+            $deck->usos = 0;
+            $deck->user_id =$request->input('user_id');
+            $deck->save();
+            $deck->cards()->attach($request->input('cards'));
+
+            return true;
+
+        } catch (Error $e) {
+           return null;
         }
     }
 }

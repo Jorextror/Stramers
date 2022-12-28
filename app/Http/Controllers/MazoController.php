@@ -31,14 +31,26 @@ class MazoController extends Controller
             'mazos'=> Deck::with('name')
         ]);
     }
-     /**
-     * Devuelve la vista createMazo
-     *
-     * @return view
-     */
-    public function new()
-    {
-        return view('createMazo', ['cartas'=>Auth::user()->cards]);
-    }
+    /**
+    * Devuelve la vista createMazo
+    *
+    * @return view
+    */
+   public function new()
+   {
+       return view('createMazo', ['cartas'=>Auth::user()->cards]);
+   }
 
+    /**
+    * Crea el mazo para el usuario
+    *
+    * @return view
+    */
+   public function add(Request $request)
+   {
+    if ($request->hasAny('cards')) {
+        return Deck::create($request);
+    }
+       return null;
+   }
 }

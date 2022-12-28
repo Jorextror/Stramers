@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function decks()
     {
-        return $this->hasMany(Deck::class);
+        return $this->hasMany(Deck::class, 'user_id');
     }
 
     public function cards()

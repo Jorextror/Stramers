@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');
 
+    Route::post('/AddMazo', [MazoController::class, 'add'])->name('mazo.store');
+
 
     Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
 
