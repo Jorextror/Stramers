@@ -75,7 +75,6 @@ class Carta
                     ->limit(5)
                     ->get()
                     ->toArray();
-
                     break;
 
                 case 'supersobre':
@@ -87,7 +86,6 @@ class Carta
                     ->limit(5)
                     ->get()
                     ->toArray();
-
                     break;
 
                 case 'megasobre':

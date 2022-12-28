@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function decks()
     {
-        return $this->belongsToMany(Deck::class);
+        return $this->hasMany(Deck::class);
     }
 
     public function cards()
@@ -109,24 +109,16 @@ class User extends Authenticatable
     public static function AddCard(Request $request)
     {
         try {
-            // $data = $request->all();
-            // $cartas_nuevas = $data['data'];
-            // $user = User::query()->where('id',$data['user'])->first();
-            // $card = new Card;
-            // foreach ($cartas_nuevas as $key=>$value) {
-            //     $card->user()->attach($data['user'],['card_id'=>$value["id"]]);
-            //     // $card->user()->associate($value['id']);
-            // }
-            $data = $request->all();
-            $tarjetas_nuevas = $data['data'];
-            $card = new Card;
-            $user = User::query()->where('id',$data['user'])->first();
-            // Añade todas las tarjetas nuevas al usuario de una sola vez
-            $user->cards()->attach($tarjetas_nuevas);
-            // $card->user()->attach($data['user'],['card_id'=>$tarjetas_nuevas]);
-            return ['status'=>200, 'value'=>true];
-            // return ['status'=>200, 'value'=>$tarjetas_nuevas];
-
+            if ($request->has('data')) {
+                $data = $request->all();
+                $tarjetas_nuevas = $data['data'];
+                $user = User::query()->where('id',$data['user'])->first();
+                // Añade todas las tarjetas nuevas al usuario de una sola vez
+                $user->cards()->attach($tarjetas_nuevas);
+                return ['status'=>200, 'value'=>true];
+                // return ['status'=>200, 'value'=>$tarjetas_nuevas];
+            }
+            return null;
         } catch (Exception $e) {
             return ['status'=>500, 'value'=>$e->getMessage()];
         }

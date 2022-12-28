@@ -111,17 +111,30 @@ class Card extends Model
      */
     public static function set_new_card(Request $request)
     {
-        $card = new Card($request->input());
-        $card->img = $request->file('img')->store('imgs');
-        $card->save();
-        //Cargamos la imagen guardada en una variable
-        $img = Image::make(Storage::get($card->img));
-        //La reescalamos
-        $img->resize(274, 364)->encode();
-        //La volvemos a guardar
-        Storage::put($card->img, (string) $img);
+        if (
+            $request->has('name') &&
+            $request->has('category') &&
+            $request->has('type') &&
+            $request->has('cost') &&
+            $request->has('life') &&
+            $request->has('dmg') &&
+            $request->has('text') &&
+            $request->has('obtainable') &&
+            $request->has('img')
+            ) {
+                $card = new Card($request->input());
+                $card->img = $request->file('img')->store('imgs');
+                $card->save();
+                //Cargamos la imagen guardada en una variable
+                $img = Image::make(Storage::get($card->img));
+                //La reescalamos
+                $img->resize(274, 364)->encode();
+                //La volvemos a guardar
+                Storage::put($card->img, (string) $img);
 
-        return $card;
+                return $card;
+            }
+            return null;
     }
     /**
      * @param request Carta a updatear
