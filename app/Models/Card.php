@@ -36,7 +36,7 @@ class Card extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function deck()
+    public function decks()
     {
         return $this->belongsToMany(Deck::class);
     }
