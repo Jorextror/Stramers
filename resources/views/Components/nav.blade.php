@@ -9,10 +9,18 @@
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                <a class="navbar-brand" href="{{ url('/mazo') }}">
+                    {{ __('Decks') }}
+                </a>
+                <a class="navbar-brand" href="{{ url('/tienda') }}">
+                    {{ __('Shop') }}
+                </a>
+
             @endguest
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
         </div>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -37,11 +45,13 @@
                         </li>
                     @endif
                 @else
+                {{-- money --}}
                 <li class="nav-item text-muted bg-dark">
                     <div class="container navbar-nav ">
                         {{ Auth::user()->money }}
                     </div>
                 </li>
+                {{-- dropdown --}}
                     <li class="nav-item dropdown bg-dark">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->nick }}
