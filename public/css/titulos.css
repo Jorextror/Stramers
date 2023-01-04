@@ -1,0 +1,22 @@
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.section{
+    margin: 1px 10px;
+}
+
+.titulo{
+    margin: 0px 20%;
+    position: relative;
+    color: orange;
+    text-align: center;
+    border: solid 2px rgb(79, 29, 145);
+    border-radius: 3px;
+}
+
+.text{
+    margin: 5px 21%;
+}

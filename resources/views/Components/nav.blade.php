@@ -6,15 +6,9 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
             @else
-                <a class="navbar-brand" href="{{ url('/home') }}">
+                {{-- <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
-                </a>
-                <a class="navbar-brand" href="{{ url('/mazo') }}">
-                    {{ __('Decks') }}
-                </a>
-                <a class="navbar-brand" href="{{ url('/tienda') }}">
-                    {{ __('Shop') }}
-                </a>
+                </a> --}}
 
             @endguest
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -73,3 +67,20 @@
         </div>
     </nav>
 </div>
+
+@guest
+@else
+<div class="fixed-bottom">
+    <nav class="nav-bot" id="nav-bot">
+        <a class="navbar-brand {{ Request::is('mazo') ? 'active' : '' }}" href="{{ url('/mazo') }}">
+            {{ __('Decks') }}
+        </a>
+        <a class="navbar-brand {{ Request::is('home') ? 'active' : '' }}" href="{{ url('/home') }}">
+            {{ __('Batalla') }}
+        </a>
+        <a class="navbar-brand {{ Request::is('tienda') ? 'active' : '' }}" href="{{ url('/tienda') }}">
+            {{ __('Shop') }}
+        </a>
+    </nav>
+</div>
+@endguest

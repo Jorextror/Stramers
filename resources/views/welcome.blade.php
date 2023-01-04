@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ asset('css/titulos.css') }}">
 
         <title>Laravel</title>
 
@@ -26,7 +27,10 @@
     <body class="antialiased">
         <x-nav/>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-
+            <section class="section">
+                <h1 class="titulo">Colaboradores</h1>
+                <p class="text">Insert user</p>
+            </section>
         </div>
     </body>
 
