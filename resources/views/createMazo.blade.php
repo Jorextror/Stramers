@@ -31,16 +31,16 @@
         height: 10px;
     }
     .comun{
-    background: linear-gradient(to right, #777777,#acacac );
+    background: rgb(93, 93, 93);
     }
-    .raro{
-        background: linear-gradient(to right, #105ba0,#3f6fad );
+    .pocoComun{
+        background: rgb(0, 132, 255);
     }
     .epica{
-        background:linear-gradient(to right,rgb(97, 17, 97),rgb(163, 51, 163));
+        background:rgb(174, 0, 255);
     }
     .legendaria{
-        background: linear-gradient(to right, #a86008, #ffba56);
+        background: rgb(255, 166, 0);
     }
 </style>
 

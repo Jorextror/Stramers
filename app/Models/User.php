@@ -29,7 +29,6 @@ class User extends Authenticatable
         'email',
         'password',
         'money',
-        'card_id',
         'nick',
         'superadmin',
     ];
@@ -56,7 +55,6 @@ class User extends Authenticatable
     /**
      * Relaciones
      */
-
     public function decks()
     {
         return $this->hasMany(Deck::class, 'user_id');
@@ -67,9 +65,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Card::class);
     }
 
-     /**
-     * @return money devuelve el dinero del usuario
-     */
+    public function friends()
+    {
+        return $this->belongsToMany(User::class,'user_user','user_id_slave','user_id_master');
+    }
+
+    /**
+    * @return money devuelve el dinero del usuario
+    */
     public function get_money()
     {
         try {
@@ -103,7 +106,8 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Request
+     * Añade las cartas pasadas por parámetro al usuario pasado por parámetro
+     * @param Request: <Array> id_cartas , id_user
      * @return Boolean
      */
     public static function AddCard(Request $request)
@@ -121,6 +125,27 @@ class User extends Authenticatable
             return null;
         } catch (Exception $e) {
             return ['status'=>500, 'value'=>$e->getMessage()];
+        }
+    }
+
+    /**
+     * Agrega como amigo a un usuario pasado por parámetro
+     * @param Int Id del usuario a agregar
+     * @return Boolean
+     */
+    public static function AddFriend($id)
+    {
+        try {
+            if (is_int($id) && $id>0) {
+                $user_master = User::where('id',$id)->first();
+                $user_slave = Auth::user();
+                $user_slave->friends()->sync($user_master->id);
+                return true;
+            }
+            return null;
+        } catch (Exception $e) {
+            // return ['status'=>500, 'value'=>$e->getMessage()];
+            return false;
         }
     }
 }
