@@ -65,7 +65,9 @@
             error: function(error) {
                 console.error(error)
             }
-            window.location.replace('{{ url('/mazo') }}')
+            // window.location.href('{{ url('/mazo') }}')
+            // $.redirect('{{ url('/mazo') }}');
+
         })
     }
   }
