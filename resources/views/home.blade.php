@@ -11,6 +11,7 @@
     <div class="start-box">
         <div class="mazo_select"></div>
         <div>Batalla</div>
+
     </div>
 </div>
 @endsection

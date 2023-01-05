@@ -191,7 +191,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <x-carta imagen='http://stramers.test/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta>
+            <x-carta imagen='/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta>
         </div>
     </div>
 </div>
