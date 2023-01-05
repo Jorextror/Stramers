@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/carta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
     <link rel="stylesheet" href="{{ asset('css/titulos.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/crear-mazo.css') }}">
 
 
 

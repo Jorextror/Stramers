@@ -1,0 +1,54 @@
+.lateral{
+    position: fixed;
+    width: 16%;
+    height: 80%;
+    right: 0;
+    margin: 0;
+    padding-top: 5px;
+    font-size: 1em;
+    text-align: center;
+    border: solid 4px #a12dff;
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+    overflow-y: scroll;
+}
+.name_mazo {
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+.comun{
+    background: linear-gradient(to right, #777777,#acacac );
+}
+.raro{
+    background: linear-gradient(to right, #105ba0,#3f6fad );
+}
+.epica{
+    background:linear-gradient(to right,rgb(97, 17, 97),rgb(163, 51, 163));
+}
+.legendaria{
+    background: linear-gradient(to right, #a86008, #ffba56);
+}
+
+.guardar{
+    text-decoration: none;
+    margin: 5px 0;
+    padding: 0 10px;
+    text-align: center;
+    background-color: transparent;
+    font-size: 1.25rem;
+    color: lime;
+    border: 2px solid lime;
+    border-radius: 4px;
+}
+
+.cancelar{
+    text-decoration: none;
+    margin: 5px 0;
+    padding: 2px 10px;
+    text-align: center;
+    font-size: 1.25rem;
+    color: red;
+    border: 2px solid red;
+    border-radius: 4px;
+}
