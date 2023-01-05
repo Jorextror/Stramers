@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MazoController;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\PrePartidaController;
 use App\Http\Controllers\TiendaController;
 
@@ -33,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tienda', [TiendaController::class, 'index'])->name('tienda');
     Route::post('/sobre', [TiendaController::class, 'sobre'])->name('tienda.sobre');
     Route::post('/AddUserCard', [TiendaController::class, 'addCardToUser'])->name('user.card');
+
+
+    Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');
+    Route::post('/addFriend', [MensajeController::class, 'addFriend'])->name('user.new.friend');
+    Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
+
 
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
 

@@ -139,7 +139,9 @@ class User extends Authenticatable
             if (is_int($id) && $id>0) {
                 $user_master = User::where('id',$id)->first();
                 $user_slave = Auth::user();
-                $user_slave->friends()->sync($user_master->id);
+                $user_slave->friends()->attach($user_master->id);
+                $user_master->friends()->attach($user_slave->id);
+
                 return true;
             }
             return null;

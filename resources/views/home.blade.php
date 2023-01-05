@@ -17,6 +17,8 @@
                     {{ __('You are logged in!') }}
                     <div class="container">
                         {{-- <x-carta imagen='/storage/{{ $carta->img }}' nombre='{{ $carta->name }}' categoria='{{ $carta->category }}' vida='{{ $carta->life }}' dmg='{{ $carta->dmg }}' coste='{{ $carta->cost }}'></x-carta> --}}
+                        <x-chat recipientId='2'></x-chat>
+                        {{-- <x-chat></x-chat> --}}
                     </div>
                 </div>
             </div>
