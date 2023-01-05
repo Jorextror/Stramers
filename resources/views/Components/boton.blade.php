@@ -1,6 +1,4 @@
-<style>
-</style>
-<div id="boton">
+{{-- <div id="boton">
     <div class="wrapper">
         <svg width="2px" height="1px" viewBox="0 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="prev" transform="translate(8.500000, 8.500000) scale(-1, 1) translate(-8.500000, -8.500000)">
@@ -10,4 +8,4 @@
             </g>
         </svg>
     </div>
-</div>
+</div> --}}
