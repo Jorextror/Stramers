@@ -27,7 +27,9 @@
 
 <script>
     function sobre(categoria) {
+        var user = "{{ Auth::user()->nick }}"
         let datos = {
+            'user': user,
             'data': categoria,
             '_token': '{{ csrf_token() }}'
         }
@@ -38,7 +40,7 @@
             data: datos,
             success: function(datos){
                 let data = {
-                                'user': '{{ Auth::user()->id }}',
+                                'user': user,
                                 'data': datos['id'],
                                 '_token': '{{ csrf_token() }}'
                             }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Carta\Carta;
-use App\Models\Card;
 use App\Models\User;
 use Illuminate\Http\Request;
 

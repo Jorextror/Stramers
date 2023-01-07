@@ -114,12 +114,44 @@ class User extends Authenticatable
     {
         try {
             if ($request->has('data')) {
-                $data = $request->all();
-                $tarjetas_nuevas = $data['data'];
-                $user = User::query()->where('id',$data['user'])->first();
+                $money = 0;
+                $user = User::query()->where('nick',$request['user'])->first();
+                $request_cards = $request['data'];
+                //Hacemos una búsqueda de las IDs de las cartas que actualmente tiene el usuario
+                $cartas_user = $user->cards->toQuery()->pluck('id')->toArray();
+                //Comparamos las cartas, las que el usuario ya tiene no se añadirán
+                $cartas_nuevas = array_diff($request_cards, $cartas_user);
                 // Añade todas las tarjetas nuevas al usuario de una sola vez
-                $user->cards()->attach($tarjetas_nuevas);
-                return ['status'=>200, 'value'=>true];
+                $user->cards()->attach($cartas_nuevas);
+
+                $cartas_repetidas = array_diff($request_cards, $cartas_nuevas);
+                //Si hay cartas repetidas, suma una cantidad de dinero por cada repetición
+                if (count($cartas_repetidas)>0) {
+                    $categories = Card::whereIn('id', $cartas_repetidas)
+                                        ->pluck('category');
+                    for ($i=0; $i < count($cartas_repetidas); $i++) {
+
+                        if ($categories[$i]=='legendaria') {
+                            $money+=2000;
+                        }
+
+                        if($categories[$i]=='epica'){
+                            $money+=1000;
+                        }
+
+                        if($categories[$i]==' pocoComun'){
+                            $money+=400;
+                        }
+
+                        if($categories[$i]=='epica'){
+                            $money+=300;
+                        }
+                    }
+                    $user->money = $user->money+$money;
+                    $user->save();
+                }
+
+                return ['status'=>200, 'value'=>$money];
                 // return ['status'=>200, 'value'=>$tarjetas_nuevas];
             }
             return null;

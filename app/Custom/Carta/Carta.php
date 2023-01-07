@@ -2,6 +2,7 @@
 namespace App\Custom\Carta;
 
 use App\Models\Card;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,7 +66,7 @@ class Carta
     {
         try {
             $cartas = [];
-            $sobre = $request->all()['data'];
+            $sobre = $request['data'];
             switch ($sobre) {
                 case 'normal':
                     $cartas = Card::where('obtainable',true)
