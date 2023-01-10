@@ -73,13 +73,13 @@
 <div class="fixed-bottom">
     <nav class="nav-bot" id="nav-bot">
         <a class="navbar-brand {{ Request::is('mazo') ? 'active' : '' }}" href="{{ url('/mazo') }}">
-            {{ __('Decks') }}
+            {{ __('Decks') }} <img style="width: 30px" src="{{ asset('img/cartas.png') }}" alt="">
         </a>
         <a class="navbar-brand {{ Request::is('home') ? 'active' : '' }}" href="{{ url('/home') }}">
-            {{ __('Batalla') }}
+            {{ __('Batalla') }} <img style="width: 30px" src="{{ asset('img/casa.png') }}" alt="">
         </a>
         <a class="navbar-brand {{ Request::is('tienda') ? 'active' : '' }}" href="{{ url('/tienda') }}">
-            {{ __('Shop') }}
+            {{ __('Shop') }} <img style="width: 30px" src="{{ asset('img/bolsadinero.png') }}" alt="">
         </a>
     </nav>
 </div>

@@ -25,6 +25,7 @@
     color:#ffffff;
     background-color:#324877;
     border-left:2px solid rgb(150, 195, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
   }
 
 .nav-bot a:hover {
@@ -44,8 +45,11 @@
     0%{
         background-color:#324877;
     }
-    100% {
+    50% {
         background-color:#2381df;
+    }
+    100%{
+        background-color:#324877;
     }
 }
 

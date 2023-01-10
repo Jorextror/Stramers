@@ -15,6 +15,7 @@
     border: none;
     background-color: transparent;
     text-align: center;
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
 }
 
 .comun{
@@ -40,6 +41,7 @@
     color: lime;
     border: 2px solid lime;
     border-radius: 4px;
+    text-shadow: lime 1px 0 1px;
 }
 
 .cancelar{
@@ -51,6 +53,7 @@
     color: red;
     border: 2px solid red;
     border-radius: 4px;
+    text-shadow: red 1px 0 1px;
 }
 
 .guardar:hover{
