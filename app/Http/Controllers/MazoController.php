@@ -28,7 +28,7 @@ class MazoController extends Controller
     public function index()
     {
         return view('mazos', [
-            'mazos'=> Deck::with('name')
+            'mazos'=> Auth::user()->decks
         ]);
     }
     /**
