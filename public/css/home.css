@@ -1,0 +1,53 @@
+/* BOXES */
+.mazos-elegir{
+    z-index: 0;
+    position: fixed;
+    left: 5px;
+    width: 65%;
+    height: 85%;
+    margin-left: 10px;
+    border: solid 2px purple;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+    overflow-y: scroll;
+}
+
+.start-box{
+    position: fixed;
+    width: 30%;
+    height: 85%;
+    right: 5px;
+    margin-right: 10px;
+    padding: 5px 5px;
+    text-align: center;
+    border: solid 2px purple;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+}
+.mazo_select{
+    height: 90%;
+    margin: 10px;
+    padding: 5px 5px;
+    border: solid 2px purple;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+}
+.start{
+    margin: 10px 20%;
+    border: solid orange 2px;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+
+}
+
+.llista_mazos{
+    display: flex;
+    padding: 0.5rem 5px;
+    flex-flow:row wrap;
+    justify-content: space-around;
+}
+#img_mazo{
+    margin: 5px 0;
+}

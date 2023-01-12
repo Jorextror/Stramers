@@ -10,9 +10,9 @@
 </div>
 
 <div class="container">
-    <div class="d-flex row m-1 justify-content-start">
+    <div class="lista_cartas">
         @foreach($cartas as $key => $value)
-            <div class="col-3 m-2">
+            <div class="">
                 <button class="btn" onclick='addcard("{{ $value->name }}", "{{ $value->category }}", "{{ $value->id }}")'>
                     <x-carta
                     imagen='/storage/{{ $value->img }}'

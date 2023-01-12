@@ -67,3 +67,9 @@
     background-color: RED;
 
 }
+
+.lista_cartas{
+    display: flex;
+    padding: 0.5rem 5px;
+    flex-flow:row wrap;
+}
