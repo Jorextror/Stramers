@@ -143,7 +143,7 @@ class User extends Authenticatable
                             $money+=400;
                         }
 
-                        if($categories[$i]=='epica'){
+                        if($categories[$i]=='comun'){
                             $money+=300;
                         }
                     }
