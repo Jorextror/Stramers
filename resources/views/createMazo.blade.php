@@ -2,6 +2,15 @@
 
 @section('content')
 
+<style>
+    .invisible{
+        display: none
+    }
+    .visible{
+        display:inline-block
+    }
+</style>
+
 <div class="lateral ">
     <input class="name_mazo" type="text" id="name" value="{{ __('Mazo nuevo') }}"> <span id="count">0</span> /20
     <ul id="lista" class="container-fluid list-group"></ul>
@@ -13,7 +22,7 @@
     <div class="lista_cartas">
         @foreach($cartas as $key => $value)
             <div class="">
-                <button class="btn" onclick='addcard("{{ $value->name }}", "{{ $value->category }}", "{{ $value->id }}")'>
+                <button class="btn {{ $value->name }}" onclick='addcard("{{ $value->name }}", "{{ $value->category }}", "{{ $value->id }}")'>
                     <x-carta
                     imagen='/storage/{{ $value->img }}'
                     nombre='{{ $value->name }}'
@@ -36,17 +45,19 @@
       lista.push(id);
       count++;
       $('#count').text(count);
-      $('#lista').append('<li onclick=delcard("'+id+'") id="'+ id +'" class="list-group-item ms-3 p-2 '+category +'">' +name+ '</li>');
+      $('#lista').append('<li onclick=delcard("'+id+'","'+name+'") id="'+ id +'" class="list-group-item ms-3 p-2 '+category +'">' +name+ '</li>');
+      $('.'+name).addClass('invisible')
     }else{
         console.log("no duples");
     }
   }
 
-  function delcard(id){
+  function delcard(id,name){
     count--;
     lista = lista.filter(name => name !== id);
     $('#count').text(count);
     $("li").remove('#'+id);
+    $('.'+name).removeClass('invisible')
   }
 
   function guardar(){

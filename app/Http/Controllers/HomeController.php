@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home')->with(["mazos"=>Auth::user()->decks]);
+        return view('home')->with(["mazos"=>Auth::user()->decks,"notificaciones"=>count(Auth::user()->unreadNotifications)]);
         // return view('home');
     }
 }

@@ -54,12 +54,45 @@ class MensajeController extends Controller
 
     public function friendRequest(Request $request)
     {
-        if ($request->has('nick')) {
-            $user = $this->user->where('nick', $request['nick'])->first();
-            $recipient = User::query()->where('id', $request['recipient_id'])->first();
-            //Generamos una notificación para el usuario al que le enviamos el mensaje
-            $recipient->notify(new FriendRequest(Auth::user()->nick));
+        try {
+
+            if ($request->has('nick')) {
+                // $user = $this->user->where('nick', $request['nick'])->first();
+                $recipient = User::query()->where('nick', $request['nick'])->first();
+                //Generamos una notificación para el usuario al que le enviamos el mensaje
+                $recipient->notify(new FriendRequest(Auth::user()->nick));
+                return true;
+
+            }
+            return false;
+
+        } catch (Exception $e) {
+            return null;
         }
-        return false;
+    }
+
+    public function getNotifications()
+    {
+        try {
+
+            return Auth::user()->notifications;
+
+        } catch (Exception $e) {
+           return null;
+        }
+    }
+
+    public function removeNotifiation(Request $request)
+    {
+        try {
+            if ($request->has('id')) {
+                $noti = Auth::user()->Notifications->find($request->input('id'));
+                $noti->delete();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            return null;
+         }
     }
 }

@@ -28,22 +28,16 @@
 <div id="sideNavigation" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="#">{{ __('Amigos') }}</a>
-    <a href="#">{{ __('Añadir amigo') }}</a>
+    <a href="#" onclick="RequestAmigo()">{{ __('Añadir amigo') }}</a>
 </div>
 {{-- POPUP ALERTAS --}}
-<a id="alerts" class="alertes" >
+<a id="alerts" class="alertes" onclick="getNotifications()">
     <img style="width: 30px" src="{{ asset('img/alerts.svg') }}">
-</a>
-{{-- popup oculto alertas --}}
-<!-- The Modal -->
-<div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Some text in the Noticias..</p>
-    </div>
-</div>
+    <span id="notis" class="position-absolute top-5 start-5 translate-middle badge rounded-pill bg-danger">
 
+    <span class="visually-hidden">unread messages</span>
+    </span>
+</a>
 {{-- box elegir mazo --}}
 <div class="mazos-elegir">
     <div class="llista_mazos">
@@ -58,11 +52,53 @@
 {{-- box empezar partida --}}
 <div class="start-box">
     <div class="mazo_select"></div>
-    <div class="start" ><a>{{ __('Batalla') }}</a></div>
+    <div class="start" ><a>{{ __('Battle') }}</a></div>
 </div>
 @endsection
-
 <script>
+
+    var numNotis = 0;
+    function eliminar(id) {
+        $("."+id).remove()
+        $.ajax({
+                url: "{{ route('user.eliminar.notificacion') }}",
+                type: 'POST',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                    'id':id
+                },
+                async: false,
+                success: function(){
+                numNotis--
+                $("#notis").text(numNotis)
+
+                },
+                error: function(data){
+
+                }
+        })
+    }
+    function aceptar(nick) {
+        $("#"+nick).remove()
+        $.ajax({
+                url: "{{ route('user.new.friend') }}",
+                type: 'POST',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                    'nick':nick
+                },
+                async: false,
+                success: function(){
+                    console.log("ok")
+                    numNotis--
+                    $("#notis").text(numNotis)
+
+                },
+                error: function(data){
+                    console.log(data)
+                }
+        })
+    }
     // POPUP AMIGOS
     function openNav() {
         document.getElementById("sideNavigation").style.width = "250px";
@@ -72,4 +108,131 @@
         document.getElementById("sideNavigation").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
+    function dateToAge(date) {
+        const fechaEspecifica = new Date(date);
+
+        // fecha de hoy
+        const fechaHoy = new Date();
+
+        // diferencia en milisegundos
+        const diferenciaMilisegundos = fechaHoy - fechaEspecifica;
+
+        // conversión a días
+        const diferenciaMinutos = Math.floor(diferenciaMilisegundos / (1000 * 60));
+        if (diferenciaMinutos < 60)
+        {
+            return diferenciaMinutos + " min";
+        }else
+        {
+            return Math.floor(diferenciaMinutos / 60) + " h";
+        }
+        return Math.floor(diferenciaMinutos * 24) + " D";
+    }
+    function getNotifications()
+    {
+        $.ajax({
+                url: "{{ route('user.notifications') }}",
+                type: 'POST',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                },
+                async: false,
+                success: function(data) {
+                    if (data) {
+                        let list;
+                        for (const key in data) {
+                            list += '<div id="'+data[key].data.SentBy+'" class="alert alert-primary alert-dismissible '+data[key].id+'">{{ __("Friend Request from") }}<strong>'+data[key].data.SentBy+'</strong> '+dateToAge(data[key].created_at)+'<button onclick=aceptar("'+data[key].data.SentBy+'") class="btn btn-success" ></button> <button onclick=eliminar("'+data[key].id+'") class="btn btn-danger">&times;</button></div>'
+                        }
+                        Swal.fire({
+                                    width: 600,
+                                    showConfirmButton: false,
+                                    title: "Notifications",
+                                    html: list
+                                   })
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                    if (error) {
+                        Swal.fire('{{ __("Error on get the notifications") }}', '', 'error')
+                    }
+                }
+
+                })
+    }
+    function RequestAmigo()
+    {
+        Swal.fire({
+            title: "{{ __('Add Friend') }}",
+            input: 'text',
+            inputAttributes: {
+            autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText:"{{ __('Send')}}",
+            preConfirm: (nick) =>{
+                return $.ajax({
+                                url: "{{ route('user.request.friend') }}",
+                                type: 'POST',
+                                data: {
+                                   ' _token': '{{ csrf_token() }}',
+                                    'nick': nick
+                                },
+                                async: false,
+                                success: function(data) {
+                                   const Toast = Swal.mixin({
+                                                            toast: true,
+                                                            position: 'top-end',
+                                                            showConfirmButton: false,
+                                                            timer: 3000,
+                                                            timerProgressBar: true,
+                                                            didOpen: (toast) => {
+                                                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                                                        }
+                                                            })
+                                    if (data) {
+                                        Toast.fire({
+                                                    icon: 'success',
+                                                    title: '{{ __("Friend request send") }}'
+                                                })
+                                    }else{
+                                        Toast.fire({
+                                                    icon: 'error',
+                                                    title: '{{ __("Error on send friend request") }}'
+                                                })
+                                    }
+                                },
+                                error: function(error) {
+                                    console.log(error)
+                                    if (error) {
+                                        Swal.fire('{{ __("Error on send friend request") }}', '', 'error')
+                                    }
+                                }
+
+                            })
+            }
+
+        })
+
+    }
+
+    setInterval(() => {
+        console.log("ola")
+        $.ajax({
+                url: "{{ route('user.notifications') }}",
+                type: 'POST',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                },
+                success: function(data){
+                    console.log(data)
+                    $("#notis").text(Object.keys(data).length)
+                    numNotis = Object.keys(data).length;
+                },
+                error: function(data){
+                    console.log(data)
+                }
+            })
+    }, 5000);
 </script>

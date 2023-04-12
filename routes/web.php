@@ -38,7 +38,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');
     Route::post('/addFriend', [MensajeController::class, 'addFriend'])->name('user.new.friend');
+    Route::post('/removeNotification', [MensajeController::class, 'removeNotifiation'])->name('user.eliminar.notificacion');
     Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
+    Route::post('/getNotifications', [MensajeController::class, 'getNotifications'])->name('user.notifications');
 
 
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
