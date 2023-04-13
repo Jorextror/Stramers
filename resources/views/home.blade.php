@@ -176,7 +176,9 @@
                                 type: 'POST',
                                 data: {
                                    ' _token': '{{ csrf_token() }}',
-                                    'nick': nick
+                                    'nick': nick,
+                                    'user_name': '{{ Auth::user()->nick }}',
+                                    'user_id': '{{ Auth::user()->id }}'
                                 },
                                 async: false,
                                 success: function(data) {
@@ -226,12 +228,10 @@
                     ' _token': '{{ csrf_token() }}',
                 },
                 success: function(data){
-                    console.log(data)
                     $("#notis").text(Object.keys(data).length)
                     numNotis = Object.keys(data).length;
                 },
                 error: function(data){
-                    console.log(data)
                 }
             })
     }, 5000);

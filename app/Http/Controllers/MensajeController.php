@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Notification\UserNotification;
 use App\Models\Message;
 use App\Models\User;
-use App\Notifications\FriendRequest;
 use App\Notifications\MessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +13,13 @@ class MensajeController extends Controller
 {
     public $mensaje;
     public $user;
-    public function __construct(Message $mensaje, User $user)
+    public $userNotification;
+    public function __construct(Message $mensaje, User $user, UserNotification $userNotification)
     {
         $this->user = $user;
         $this->mensaje = $mensaje;
         $this->middleware('auth');
+        $this->userNotification = $userNotification;
     }
     /**
      * Envía un mensaje a otro usuario
@@ -54,21 +56,7 @@ class MensajeController extends Controller
 
     public function friendRequest(Request $request)
     {
-        try {
-
-            if ($request->has('nick')) {
-                // $user = $this->user->where('nick', $request['nick'])->first();
-                $recipient = User::query()->where('nick', $request['nick'])->first();
-                //Generamos una notificación para el usuario al que le enviamos el mensaje
-                $recipient->notify(new FriendRequest(Auth::user()->nick));
-                return true;
-
-            }
-            return false;
-
-        } catch (Exception $e) {
-            return null;
-        }
+        return $this->userNotification->friendRequest($request);
     }
 
     public function getNotifications()
@@ -84,15 +72,6 @@ class MensajeController extends Controller
 
     public function removeNotifiation(Request $request)
     {
-        try {
-            if ($request->has('id')) {
-                $noti = Auth::user()->Notifications->find($request->input('id'));
-                $noti->delete();
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
-            return null;
-         }
+        return $this->userNotification->removeNotifiation($request);
     }
 }
