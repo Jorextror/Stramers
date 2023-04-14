@@ -182,4 +182,26 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    /**
+     * Cambia el estatus al usuario que pasamos por parámetro
+     * @param $status
+     * @param $user Usuario a cambiar el status
+     * @return bool
+     */
+    public static function changeStatus($status, User $user)
+    {
+        try {
+
+            if (is_int($status)) {
+               $user->status = $status;
+               $user->save();
+               return true;
+            }
+            return false;
+
+        } catch (Exception $e) {
+            return null;
+        }
+    }
 }

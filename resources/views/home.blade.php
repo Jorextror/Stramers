@@ -39,7 +39,20 @@
         @foreach (Auth::user()->friends as $friend)
         <div class="alert alert-light" role="alert">
             <strong> {{ $friend->nick }} </strong>
-            {{-- <span> {{  }}</span> --}}
+            @switch($friend->status)
+                @case(0)
+                    <span> {{ __('Disconected') }}  <span style='font-size:15px;color:rgb(163, 163, 163);'>&#9673;</span></span>
+                    @break
+                @case(1)
+                    <span> {{ __('Connected') }} <span style='font-size:15px;color:rgb(96, 211, 54);'>&#9673;</span></span>
+                @break
+                @case(2)
+                    <span> {{ __('Playing') }} <span style='font-size:15px;color:rgb(221, 215, 67);'>&#9673;</span> </span>
+                @break
+
+                @default
+
+            @endswitch
         </div>
             {{-- <div class="" style="margin:5px;">
                <strong> {{ $friend->nick }} </strong>
