@@ -1,5 +1,6 @@
 <?php
 
+use App\Custom\Socket\SocketHandler;
 use App\Http\Controllers\CartaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,8 @@ use App\Http\Controllers\MazoController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\PrePartidaController;
 use App\Http\Controllers\TiendaController;
-
+use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
+use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
     Route::post('/getNotifications', [MensajeController::class, 'getNotifications'])->name('user.notifications');
 
-
     // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
 
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
@@ -60,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
 
+    WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);
 
 
 });
