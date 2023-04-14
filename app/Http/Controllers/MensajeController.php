@@ -72,6 +72,7 @@ class MensajeController extends Controller
 
     public function removeNotifiation(Request $request)
     {
-        return $this->userNotification->removeNotifiation($request);
+        return $this->userNotification->removeNotification($request);
     }
 }
+

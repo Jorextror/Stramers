@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
 
+.position-absolute {
+  position: absolute !important;
+}
+</style>
 {{-- dropdown SETTINGS --}}
 <a class="settings" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
     <img style="width: 30px" src="{{ asset('img/settings.svg') }}">
@@ -27,11 +32,23 @@
 {{-- POPUP OCULTO DE AMIGOS --}}
 <div id="sideNavigation" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">{{ __('Amigos') }}</a>
-    <a href="#" onclick="RequestAmigo()">{{ __('Añadir amigo') }}</a>
+    {{-- <a href="#" onclick="RequestAmigo()">{{ __('Añadir amigo') }}</a> --}}
+    <a href="#" onclick="RequestAmigo()"><img class="img-fluid position-absolute end-0 m-3" style="width:15%;fill:rgb(163, 163, 163); "src="{{ asset('img/user-plus-solid.svg') }}" alt="" srcset=""></a>
+    <h1 class="">{{ __('Friends') }}</h1>
+    <div class="container" style="margin-top:55px;">
+        @foreach (Auth::user()->friends as $friend)
+        <div class="alert alert-light" role="alert">
+            <strong> {{ $friend->nick }} </strong>
+            {{-- <span> {{  }}</span> --}}
+        </div>
+            {{-- <div class="" style="margin:5px;">
+               <strong> {{ $friend->nick }} </strong>
+            </div> --}}
+        @endforeach
+    </div>
 </div>
 {{-- POPUP ALERTAS --}}
-<a id="alerts" class="alertes" onclick="getNotifications()">
+<a id="alert_ico" class="alertes" onclick="getNotifications()">
     <img style="width: 30px" src="{{ asset('img/alerts.svg') }}">
     <span id="notis" class="position-absolute top-5 start-5 translate-middle badge rounded-pill bg-danger">
 
@@ -139,15 +156,23 @@
                 async: false,
                 success: function(data) {
                     if (data) {
-                        let list;
+                        let list="";
                         for (const key in data) {
-                            list += '<div id="'+data[key].data.SentBy+'" class="alert alert-primary alert-dismissible '+data[key].id+'">{{ __("Friend Request from") }}<strong>'+data[key].data.SentBy+'</strong> '+dateToAge(data[key].created_at)+'<button onclick=aceptar("'+data[key].data.SentBy+'") class="btn btn-success" ></button> <button onclick=eliminar("'+data[key].id+'") class="btn btn-danger">&times;</button></div>'
+                            list += '<div id="'+data[key].data.SentBy+'" class="alert alert-secondary '+data[key].id+'">{{ __("Friend Request from") }} <strong>'+data[key].data.SentBy+'</strong> '+dateToAge(data[key].created_at)+'<button style="margin-top:-8px; margin-left:10px"  onclick=aceptar("'+data[key].data.SentBy+'") class="btn btn-success float-end" >&#x2713;</button> <button style="margin-top:-8px; margin-left:10px" onclick=eliminar("'+data[key].id+'") class="btn btn-danger float-end">&times;</button></div>'
                         }
                         Swal.fire({
+                                    toast:true,
+                                    position: 'top',
                                     width: 600,
+                                    // padding:'5px',
                                     showConfirmButton: false,
+                                    showCloseButton:true,
                                     title: "Notifications",
-                                    html: list
+                                    html: list,
+                                    // background: '#111',
+                                    customClass: {
+                                                    container: 'position-absolute'
+                                                },
                                    })
                     }
                 },

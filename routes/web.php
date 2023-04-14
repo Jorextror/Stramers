@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/AddUserCard', [TiendaController::class, 'addCardToUser'])->name('user.card');
 
 
-    Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');
+    Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');//No se usa
     Route::post('/addFriend', [MensajeController::class, 'addFriend'])->name('user.new.friend');
     Route::post('/removeNotification', [MensajeController::class, 'removeNotifiation'])->name('user.eliminar.notificacion');
     Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
