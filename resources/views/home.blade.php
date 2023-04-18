@@ -35,29 +35,8 @@
     {{-- <a href="#" onclick="RequestAmigo()">{{ __('Añadir amigo') }}</a> --}}
     <a href="#" onclick="RequestAmigo()"><img class="img-fluid position-absolute end-0 m-3" style="width:15%;fill:rgb(163, 163, 163); "src="{{ asset('img/user-plus-solid.svg') }}" alt="" srcset=""></a>
     <h1 class="">{{ __('Friends') }}</h1>
-    <div class="container" style="margin-top:55px;">
-        @foreach (Auth::user()->friends as $friend)
-        <div class="alert alert-light" role="alert">
-            <strong> {{ $friend->nick }} </strong>
-            @switch($friend->status)
-                @case(0)
-                    <span> {{ __('Disconected') }}  <span style='font-size:15px;color:rgb(163, 163, 163);'>&#9673;</span></span>
-                    @break
-                @case(1)
-                    <span> {{ __('Connected') }} <span style='font-size:15px;color:rgb(96, 211, 54);'>&#9673;</span></span>
-                @break
-                @case(2)
-                    <span> {{ __('Playing') }} <span style='font-size:15px;color:rgb(221, 215, 67);'>&#9673;</span> </span>
-                @break
 
-                @default
-
-            @endswitch
-        </div>
-            {{-- <div class="" style="margin:5px;">
-               <strong> {{ $friend->nick }} </strong>
-            </div> --}}
-        @endforeach
+    <div id="friend-list" class="container" style="margin-top:55px;">
     </div>
 </div>
 {{-- POPUP ALERTAS --}}
@@ -86,7 +65,6 @@
 </div>
 @endsection
 <script>
-
     var numNotis = 0;
     function eliminar(id) {
         $("."+id).remove()
@@ -125,7 +103,6 @@
 
                 },
                 error: function(data){
-                    console.log(data)
                 }
         })
     }
@@ -256,9 +233,39 @@
         })
 
     }
+    function getFriends() {
+        $.ajax({
+                url: "{{ route('user.get.friends') }}",
+                type: 'POST',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                },
+                success: function(data){
+                    let html="";
+                    for (const friend of data) {
+                        switch (friend.status) {
+                            case 0:
+                                html += '<div class="alert alert-light" role="alert"><strong>'+friend.nick+'</strong><span> {{ __("Disconected") }}  <span style="font-size:15px;color:rgb(163, 163, 163);">&#9673;</span></span></div>'
+                                break;
+                            case 1:
+                                html += '<div class="alert alert-light" role="alert"><strong>'+friend.nick+'</strong><span> {{ __("Connected") }} <span style="font-size:15px;color:rgb(96, 211, 54);">&#9673;</span></span></div>'
+                            break;
+                            case 2:
+                                html += '<div class="alert alert-light" role="alert"><strong>'+friend.nick+'</strong><span> {{ __("Playing") }} <span style="font-size:15px;color:rgb(221, 215, 67);"">&#9673;</span></span></div>'
+                            break;
 
-    setInterval(() => {
-        console.log("ola")
+                            default:
+                                break;
+                        }
+
+                    }
+                    $("#friend-list").html(html)
+                },
+                error: function(data){
+                }
+            })
+    }
+    function getNumNotis() {
         $.ajax({
                 url: "{{ route('user.notifications') }}",
                 type: 'POST',
@@ -272,5 +279,19 @@
                 error: function(data){
                 }
             })
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        getFriends()
+        getNumNotis()
+   });
+    // $(document).ready(function() {
+
+    // });
+
+    setInterval(() => {
+        getNumNotis()
+        getFriends()
+
     }, 5000);
 </script>

@@ -70,6 +70,16 @@ class MensajeController extends Controller
         }
     }
 
+    public function getFriends()
+    {
+        try {
+            return Auth::user()->friends;
+
+        } catch (Exception $e) {
+           return null;
+        }
+    }
+
     public function removeNotifiation(Request $request)
     {
         return $this->userNotification->removeNotification($request);

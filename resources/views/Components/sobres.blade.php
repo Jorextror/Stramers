@@ -14,11 +14,11 @@
 </style>
 
 <div>
-    <button class="button-add"  onclick="sobre('normal')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
+    <button id="normal" class="button-add"  onclick="sobre('normal')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
 
-    <button class="button-add"  onclick="sobre('supersobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
+    <button id="supersobre" class="button-add"  onclick="sobre('supersobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
 
-    <button class="button-add"  onclick="sobre('megasobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
+    <button id="megasobre" class="button-add"  onclick="sobre('megasobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
 </form>
 </div>
 
@@ -46,9 +46,10 @@
                     data: data,
                     url: "{{ route('user.card') }}",
                     success: function(status){
-                        console.log(status)
                     }
                 });
+            },
+            error: function(data){
             }
         });
     }
