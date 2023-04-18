@@ -18,50 +18,23 @@ class Sobre extends Model
         'type',
         'cost',
     ];
+
     public static function genera_sobre(Request $request)
     {
         try {
             $cartas = [];
             $sobre = $request['data'];
             $dinero = Auth::user()->money;
-            switch ($sobre) {
-                case 'normal':
-                    Auth::user()->set_money($dinero-800);
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','comun')
-                    ->orwhere('category','pocoComun')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
 
-                case 'supersobre':
-                    Auth::user()->set_money($dinero-1500);
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','comun')
-                    ->orwhere('category','pocoComun')
-                    ->orwhere('category','epica')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
-
-                case 'megasobre':
-                    Auth::user()->set_money($dinero-3000);
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','pocoComun')
-                    ->orwhere('category','epica')
-                    ->orwhere('category','legendaria')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
-                default:
-                    return ['status'=>404, 'value'=>'Error, sobre no encontrado'];
-            }
+            $tipoSobre = Sobre::query()->where('name',$sobre)->first();
+            $tipoCartas = explode(',',$tipoSobre->type);
+            Auth::user()->set_money($dinero-$tipoSobre->cost);
+            $cartas = Card::where('obtainable',false)
+                                ->whereIn('category',$tipoCartas)
+                                ->inRandomOrder()
+                                ->limit(5)
+                                ->get()
+                                ->toArray();
 
             $id = array_map(function($carta){
                 return $carta['id'];
@@ -70,7 +43,6 @@ class Sobre extends Model
             return ['status'=>200, 'value'=>['id'=>$id,'cards'=>$cartas]];
         } catch (Exception $e) {
             return ["status"=>500,"value"=>$e];
-
         }
     }
 }

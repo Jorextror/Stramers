@@ -1,6 +1,6 @@
 <style>
     .button-add {
-        margin: 30px;
+        margin: 0px;
         outline: none;
         background-color: transparent; /* make the button transparent */
         background-repeat: no-repeat;  /* make the background image appear only once */
@@ -10,16 +10,16 @@
         padding: 16px;     /* make text start to the right of the image */
         vertical-align: middle; /* align the text vertically centered */
         color: rgba(255, 0, 0, 0);
+        /* width: 30%; */
 }
 </style>
 
-<div>
-    <button id="normal" class="button-add"  onclick="sobre('normal')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
+<div class="container">
+    <button id="normal" class="button-add"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
 
-    <button id="supersobre" class="button-add"  onclick="sobre('supersobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
+    <button id="supersobre" class="button-add"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>
 
-    <button id="megasobre" class="button-add"  onclick="sobre('megasobre')" ><img src="{{ asset('img/legendaria.png') }}" alt=""></button>
-</form>
+    <button id="megasobre" class="button-add"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
 </div>
 
 <script>
@@ -36,6 +36,7 @@
             async: false,
             data: datos,
             success: function(datos){
+                console.log(datos)
                 let data = {
                                 'user': user,
                                 'data': datos['id'],
@@ -50,6 +51,7 @@
                 });
             },
             error: function(data){
+                console.log(data)
             }
         });
     }
