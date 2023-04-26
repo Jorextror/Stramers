@@ -6,6 +6,7 @@
 .position-absolute {
   position: absolute !important;
 }
+
 </style>
 {{-- dropdown SETTINGS --}}
 <a class="settings" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -48,7 +49,7 @@
     </span>
 </a>
 {{-- box elegir mazo --}}
-<div class="mazos-elegir">
+<div class="mazos-elegir bg-light">
     <div class="llista_mazos">
         @isset($mazos)
             @foreach($mazos as $mazo)
@@ -59,9 +60,9 @@
 
 </div>
 {{-- box empezar partida --}}
-<div class="start-box">
+<div class="start-box bg-light">
     <div class="mazo_select"></div>
-    <div class="start" ><a>{{ __('Battle') }}</a></div>
+    <div class="btn-play" ><a class="noselect">{{ __('Battle') }}</a></div>
 </div>
 @endsection
 <script>
