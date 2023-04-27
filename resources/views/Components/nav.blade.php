@@ -114,9 +114,8 @@
                 <div class="progress-bar" style="width:75%;"></div>
             </div>
 
-
             <div class="info">
-                {{ __('Money:') }} {{ Auth::user()->money }}
+                <img class="money" src="{{ asset('img/money.png') }}" alt="" srcset=""> <span class="money-text">{{ Auth::user()->money }}</span>
             </div>
 
         </nav>

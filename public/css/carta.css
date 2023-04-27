@@ -1,14 +1,10 @@
 .img{
     position: relative;
+    width: 280px;
 }
 .img img{
     box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
 }
-/* .img_fondo_legendaria{
-    left: 0px;
-    border-style: solid;
-    border-color:rgb(255, 166, 0);
-} */
 .img_fondo_epica{
     left: 0px;
     border-style: solid;
@@ -25,21 +21,29 @@
     border-style: solid;
     border-color:rgb(93, 93, 93);
 }
-
+.fondo-nombre{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #0000007b;
+    width: 274px;
+    height: 60px;
+}
 .nombre{
     position: absolute;
-    top: 30px;
+    top: 0px;
     left: 25px;
     font-size:35px;
     color:white;
     text-shadow: rgb(255, 255, 255) 1px 0 10px;
     text-align: center;
+    /* background-color: #000; */
 }
 
 .vida{
     position: absolute;
     bottom: 0px;
-    left: 10px;
+    left: 5px;
     width: 100px;
     height: 100px;
     background-size: 100px 100px;
@@ -48,27 +52,55 @@
     position: absolute;
     color:rgb(255, 255, 255);
     text-shadow: rgb(255, 255, 255) 1px 0 10px;
-    left: 35px;
-    bottom: 10px;
+    left: 38px;
+    bottom: 20px;
+    font-size:40px;
+    text-align: match-parent;
+    background-repeat: no-repeat;
+}
+.text_vida_10{
+    position: absolute;
+    color:rgb(255, 255, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    left: 30px;
+    bottom: 20px;
     font-size:40px;
     text-align: match-parent;
     background-repeat: no-repeat;
 }
 .dmg{
     position: absolute;
-    top: 280px;
-    left: 205px;
-    width: 100px;
-    height: 100px;
-    font-size:35px;
+    bottom: -5px;
+    left: 160px;
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    /* width: 100px; */
+    background-size: 120px 120px;
+}
+.text_dmg{
+    position: absolute;
     color:rgb(255, 255, 255);
     text-shadow: rgb(255, 255, 255) 1px 0 10px;
-    text-align: center;
+    left: 50px;
+    bottom: 20px;
+    font-size:40px;
+    /* text-align: center ; */
+}
+
+.text_dmg_10{
+    position: absolute;
+    color:rgb(255, 255, 255);
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+    left: 38px;
+    bottom: 20px;
+    font-size:40px;
+    /* text-align: center ; */
 }
 
 .coste{
     position: absolute;
-    top: -30px;
+    top: -10px;
     left: 200px;
     width: 100px;
     height: 100px;
@@ -84,6 +116,8 @@
 .img_fondo_legendaria {
 	position: relative;
 	background: linear-gradient(0deg, #000, #272727);
+    width: 274px;
+
 }
 
 .img_fondo_legendaria:before, .img_fondo_legendaria:after {

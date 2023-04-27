@@ -97,3 +97,10 @@
     font-weight: bold;
     color: #ffffff;
 }
+
+.money {
+    width: 25px;
+}
+.money-text{
+    padding-right: 5px;
+}
