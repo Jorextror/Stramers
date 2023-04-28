@@ -18,18 +18,51 @@
         top: 0;
     }
 </style>
-
-<div class="container">
-    <button id="normal" class="button-add"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
-
-    <button id="supersobre" class="button-add"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>
-
-    <button id="megasobre" class="button-add"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
 </div>
+<div id="principal" class="container">
+    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span>
+    <button id="normal" class="button-add sobre"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
+
+    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['supersobre'] }}</span>
+    <button id="supersobre" class="button-add sobre"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>
+
+    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['megasobre'] }}</span>
+    <button id="megasobre" class="button-add sobre"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
+</div>
+
 <canvas id="canvas"></canvas>
 
 <script>
+// Colors
+var colorPalette = {
+    bg: {r:255,g:255,b:255},
+    matter: [
+    //{r:0,g:0,b:0}, // darkPRPL
+    //{r:78,g:36,b:42}, // rockDust
+    //{r:252,g:178,b:96}, // solorFlare
+    //{r:253,g:238,b:152} // totesASun
+    ]
+};
+var config = {
+  particleNumber: 2000,
+  maxParticleSize: 5,
+  maxSpeed: 40,
+  colorVariation: 10
+};
+
+
     function sobre(categoria) {
+
+        if (categoria == 'normal') {
+            colorPalette.matter = [{r:166,g:166,b:166},{r:80,g:80,b:80}]
+        }
+        if (categoria == 'supersobre') {
+            colorPalette.matter = [{r:104,g:0,b:255},{r:178,g:0,b:255}]
+        }
+        if (categoria == 'megasobre') {
+            colorPalette.matter = [{r:252,g:178,b:96},{r:253,g:238,b:152}]
+        }
+
         var user = "{{ Auth::user()->nick }}"
         let datos = {
             'user': user,
@@ -43,53 +76,29 @@
             data: datos,
             success: function(datos){
                 console.log(datos)
-                let data = {
-                                'user': user,
-                                'data': datos['id'],
-                                '_token': '{{ csrf_token() }}'
-                            }
-                $.post({
-                    async: false,
-                    data: data,
-                    url: "{{ route('user.card') }}",
-                    success: function(status){
-                    }
-                });
+                $('#principal').replaceWith(datos)
             },
             error: function(data){
-                console.log(data)
+                console.log(data.responseJSON)
             }
         });
     }
-</script>
 
 
-<script>
-    var canvas = document.querySelector("#canvas"),
-    ctx = canvas.getContext('2d');
+var canvas = document.querySelector("#canvas"),
+ctx = canvas.getContext('2d');
 
 // Set Canvas to be window size
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Configuration, Play with these
-var config = {
-  particleNumber: 2000,
-  maxParticleSize: 2,
-  maxSpeed: 40,
-  colorVariation: 10
-};
-
-// Colors
-var colorPalette = {
-    bg: {r:255,g:255,b:255},
-    matter: [
-    //   {r:36,g:18,b:42}, // darkPRPL
-    //   {r:78,g:36,b:42}, // rockDust
-        {r:252,g:178,b:96}, // solorFlare
-    //   {r:253,g:238,b:152} // totesASun
-    ]
-};
+// var config = {
+//   particleNumber: 2000,
+//   maxParticleSize: 5,
+//   maxSpeed: 40,
+//   colorVariation: 10
+// };
 
 // Some Variables hanging out
 var particles = [],
@@ -203,6 +212,7 @@ document.body.addEventListener("click", function (event) {
         y = event.clientY;
     cleanUpArray();
     initParticles(config.particleNumber, x, y);
+    colorPalette.matter =[]
 });
 
 // First Frame

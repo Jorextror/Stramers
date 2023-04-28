@@ -19,22 +19,80 @@ class Sobre extends Model
         'cost',
     ];
 
-    public static function genera_sobre(Request $request)
+    private function _getCartasSobre(Array $tipoCartas, Sobre $sobre)
+    {
+        if ($sobre->rareza == 0) {
+            //4% de posibilidades
+            if ($this->_probabilidad(25)) {
+                array_push($tipoCartas,'epica');
+            }
+            //1%
+            if ($this->_probabilidad(100)) {
+                array_push($tipoCartas,'legendaria');
+            }
+        }
+
+        if ($sobre->rareza == 1) {
+            //15% de posibilidades
+            if ($this->_probabilidad(8)) {
+                array_push($tipoCartas,'legendaria');
+            }
+        }
+        if ($sobre->rareza == 2) {
+            //25% de posibilidades
+            if ($this->_probabilidad(4)) {
+                $pos = array_search('legendaria',$tipoCartas);
+                unset($tipoCartas[$pos]);
+            }
+        }
+
+        return $tipoCartas;
+    }
+
+    private function _probabilidad($posibilidades)
+    {
+        $num = rand(0,$posibilidades);
+        $num1 = rand(0,$posibilidades);
+
+        return $num == $num1;
+    }
+
+
+
+    public function get_cost()
+    {
+        $costeSobres = [];
+        $allSobre = $this::query()->where('id','>',0)->get(['name','cost']);
+
+        foreach ($allSobre as $key => $value) {
+            $costeSobres[$value['name']] = $value['cost'];
+        }
+
+        return $costeSobres;
+    }
+
+
+    public function genera_sobre(Request $request)
     {
         try {
             $cartas = [];
             $sobre = $request['data'];
-            $dinero = Auth::user()->money;
+            $usuarioReal = User::query()->where('nick',$request['user'])->first();
+            $dinero = $usuarioReal->money;
 
-            $tipoSobre = Sobre::query()->where('name',$sobre)->first();
+            $tipoSobre = $this::query()->where('name',$sobre)->first();
             $tipoCartas = explode(',',$tipoSobre->type);
-            Auth::user()->set_money($dinero-$tipoSobre->cost);
-            $cartas = Card::where('obtainable',false)
-                                ->whereIn('category',$tipoCartas)
-                                ->inRandomOrder()
-                                ->limit(5)
-                                ->get()
-                                ->toArray();
+
+            $usuarioReal->set_money($dinero - $tipoSobre->cost);
+            $cartas = Card::where('obtainable',false);//TODO Cambiar en producción
+            //Generamos el tipo de cartas que nos van a tocar en el sobre
+            $tipoCartas = $this->_getCartasSobre($tipoCartas,$tipoSobre);
+
+            $cartas = $cartas->whereIn('category',$tipoCartas)
+                ->inRandomOrder()
+                ->limit(5)
+                ->get()
+                ->toArray();
 
             $id = array_map(function($carta){
                 return $carta['id'];

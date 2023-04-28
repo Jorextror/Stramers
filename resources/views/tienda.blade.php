@@ -13,6 +13,6 @@
 
 <div class="lista_sobres">
     <a href="{{  route("home") }}"><x-boton></x-boton></a>
-    <x-sobres></x-sobres>
+    <x-sobres :sobres="$sobres"></x-sobres>
 </div>
 @endsection
