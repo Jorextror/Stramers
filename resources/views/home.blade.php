@@ -13,7 +13,7 @@
     <img style="width: 30px" src="{{ asset('img/settings.svg') }}">
 </a>
 <div class="dropdown-menu dropdown-menu-end bg-dark text-light" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item text-muted" href="#">
+    <a class="dropdown-item text-muted" href="{{ route('user.settings') }}">
         {{ __('Settings') }}
     </a>
     <a class="dropdown-item text-muted" href="{{ route('logout') }}"
@@ -33,7 +33,6 @@
 {{-- POPUP OCULTO DE AMIGOS --}}
 <div id="sideNavigation" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    {{-- <a href="#" onclick="RequestAmigo()">{{ __('Añadir amigo') }}</a> --}}
     <a href="#" onclick="RequestAmigo()"><img class="img-fluid position-absolute end-0 m-3" style="width:15%;fill:rgb(163, 163, 163); "src="{{ asset('img/user-plus-solid.svg') }}" alt="" srcset=""></a>
     <h1 class="">{{ __('Friends') }}</h1>
 

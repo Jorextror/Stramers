@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MazoController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\PrePartidaController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TiendaController;
 use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler;
@@ -23,7 +24,7 @@ use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler;
 |
 */
 
-//TODO Crear rutas Menu,Tienda,Crear Mazo, Jugar etc...
+//DONE Crear rutas Menu,Tienda,Crear Mazo, Jugar etc...
 Route::get('/', function () {
     return view('welcome');
 });
@@ -50,7 +51,9 @@ Route::middleware(['auth'])->group(function () {
     //Rutas Mazos
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('user.settings');
     Route::post('/AddMazo', [MazoController::class, 'add'])->name('mazo.store');
+    Route::post('/changeSettings', [SettingsController::class, 'changeSettings'])->name('user.update.settings');
 
     //Rutas Super admin
     Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
@@ -59,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
 
     //Rutas Socket
+    
     WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);
 
 

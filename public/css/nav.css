@@ -66,36 +66,44 @@
 
 }
 .nav-top .info{
-    margin: 0 10px;
+    /* margin: 0 10px; */
     padding: 2px 10px;
-    background-color: gray;
-    border: solid gray 2px ;
-    border-radius: 5px;
     color: #ffffff;
     text-shadow: #ffffff 1px 0 1px;
     box-shadow: 0 1em 2em rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    text-align: center;
 }
 /* lvls */
 .progress {
-    width: 120px;
-    border: 1px solid #428bca;
-    border-radius: 5px;
-    background-color: grey;
+    position: absolute;
+    width: 270px;
+    border-radius: 0px 5px;
+    background-color: #9bfd71;
+    top: 60px;
+    left: 0px;
 }
 
 .progress-bar {
-    background: #428bca;
+    background-color: #9bfd71;
     display: flex;
+    color: #9bfd71;
     border-radius: 5px;
 }
 
 .progress-bar-text {
-    width: 25px;
+    position: absolute;
+    width: 45px;
     text-align: center;
-    background-color: #2381df;
+    background-color: #9bfd71;
     border-radius: 50%;
     font-weight: bold;
+    font-size: 25px;
     color: #ffffff;
+    z-index: 1;
+    top: 45px;
+    left: -10px;
+
 }
 
 .money {
@@ -103,4 +111,33 @@
 }
 .money-text{
     padding-right: 5px;
+}
+
+#nav-bar{
+    margin: 20px;
+    background-color: #000000;
+    width: 270px;
+    height: 75px;
+    border-radius: 10px;
+    bottom: 0px;
+}
+
+.money_profile{
+    position: absolute;
+    left: 300px;
+    top:45px;
+}
+
+.img_profile{
+    position: absolute;
+    width: 35px;
+    border-radius: 5px;
+    left: 40px;
+    top: 10px;
+}
+.nick{
+    position: absolute;
+    left: 70px;
+    top: 15px;
+    text-shadow: #ffffff 1px 0 5px;
 }

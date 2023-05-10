@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Custom\User\UserValidator;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +32,8 @@ class User extends Authenticatable
         'money',
         'nick',
         'superadmin',
+        'avatar',
+        'background_profile'
     ];
 
     /**
@@ -68,6 +71,12 @@ class User extends Authenticatable
     public function friends()
     {
         return $this->belongsToMany(User::class,'user_user','user_id_slave','user_id_master');
+    }
+
+    public function backgrounds()
+    {
+        // return $this->belongsToMany(Background::class, 'user_background', 'user_id','background_id');
+        return $this->belongsToMany(Background::class);
     }
 
     /**
@@ -152,7 +161,7 @@ class User extends Authenticatable
                 }
 
                 return ['status'=>200, 'value'=>$money];
-                // return ['status'=>200, 'value'=>$tarjetas_nuevas];
+                // return ['status'=>200, 'value'=>$tarjetas_nuevas]; //DEBUG
             }
             return null;
         } catch (Exception $e) {
@@ -178,7 +187,7 @@ class User extends Authenticatable
             }
             return null;
         } catch (Exception $e) {
-            // return ['status'=>500, 'value'=>$e->getMessage()];
+            // return ['status'=>500, 'value'=>$e->getMessage()]; //DEBUG
             return false;
         }
     }
@@ -200,6 +209,30 @@ class User extends Authenticatable
             }
             return false;
 
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+    //FIX
+    public function updateUser(Request $request)
+    {
+        try {
+            if ($request->has('name')
+            && $request->has('nick')
+            && $request->has('avatar')
+            && $request->has('background'))
+            {
+                $user = User::query()->where('nick',$request->input('nick'));
+
+                // $user->name = $request->input('name');
+                // $user->nick = $request->input('nick');
+                // $user->avatar = $request->input('avatar');
+                // $user->background_profile = $request->input('background');
+
+                $user->save();
+
+                return true;
+            }
         } catch (Exception $e) {
             return null;
         }

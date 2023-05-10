@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/amigos.css') }}">
     <link rel="stylesheet" href="{{ asset('css/alertas-home.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tienda.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
     <style>
         a{
             text-decoration: none;
