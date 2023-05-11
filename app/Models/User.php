@@ -33,7 +33,8 @@ class User extends Authenticatable
         'nick',
         'superadmin',
         'avatar',
-        'background_profile'
+        'background_profile',
+        'socket_id'
     ];
 
     /**
@@ -75,7 +76,6 @@ class User extends Authenticatable
 
     public function backgrounds()
     {
-        // return $this->belongsToMany(Background::class, 'user_background', 'user_id','background_id');
         return $this->belongsToMany(Background::class);
     }
 
@@ -92,7 +92,7 @@ class User extends Authenticatable
     }
 
      /**
-     * @return money devuelve el dinero del usuario
+     * @return money actualiza el dinero del usuario
      */
     public function set_money($cantidad=0)
     {
@@ -103,6 +103,22 @@ class User extends Authenticatable
             $this->save();
         } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
+        }
+    }
+    /**
+     * Asigna socket id al usuario
+     * @param socketId String del socket ID
+     * @return void
+     */
+    public function set_socket_id($socketId = null)
+    {
+        try
+        {
+            $this->socket_id = $socketId;
+            $this->save();
+        } catch (Exception $e)
+        {
+            return null;
         }
     }
 
@@ -218,23 +234,29 @@ class User extends Authenticatable
     {
         try {
             if ($request->has('name')
-            && $request->has('nick')
-            && $request->has('avatar')
-            && $request->has('background'))
+            && $request->has('nick'))
             {
+                $updates = ['name'=>$request->input('name'),'nick'=>$request->input('nick')];
                 $user = User::query()->where('nick',$request->input('nick'));
 
-                // $user->name = $request->input('name');
-                // $user->nick = $request->input('nick');
-                // $user->avatar = $request->input('avatar');
-                // $user->background_profile = $request->input('background');
+                if ($request->has('avatar') && $request->input('avatar')!=null) {
+                    $img = Card::query()->where('name',$request->input('avatar'))->first();
+                    $updates['avatar'] =  $img->img;
+                }
 
-                $user->save();
+                if ($request->has('background') && $request->input('background')!=null) {
+                    $back = Background::query()->where('name', $request->input('background'))->first();
+                    $updates['background_profile'] = $back->id;
+                }
 
-                return true;
+                $user->update($updates);
+
+                return $user;
             }
         } catch (Exception $e) {
-            return null;
+            return $e->getMessage();
         }
     }
+
+
 }

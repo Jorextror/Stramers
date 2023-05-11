@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <script>
 
@@ -90,7 +89,7 @@
         title: '<strong>{{ __("Select Avatar") }}</strong>',
         html:html,
         showCloseButton: true,
-        showConfirmButton: false,
+        showConfirmButton: true,
     })
     }
 
@@ -120,7 +119,7 @@
         title: '<strong>{{ __("Background Profile") }}</strong>',
         html:html,
         showCloseButton: true,
-        showConfirmButton: false,
+        showConfirmButton: true,
     })
     }
 

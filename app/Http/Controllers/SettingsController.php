@@ -39,8 +39,8 @@ class SettingsController extends Controller
         if($respuesta["status"]===406){
             return view('updateUser',['user'=>Auth::user(), 'cartas'=>$cartas, 'backgrounds' => $backgrounds,"error"=>"Settings not updated"]);
         }
-
         $user->updateUser($request);
+
         return view('updateUser',['user'=>Auth::user(), 'cartas'=>$cartas, 'backgrounds' => $backgrounds,"success"=>"Settings updated"]);
 
     }
