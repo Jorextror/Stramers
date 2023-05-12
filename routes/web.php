@@ -2,6 +2,7 @@
 
 use App\Custom\Socket\SocketHandler;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -35,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     //Rutas Web
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/tienda', [TiendaController::class, 'index'])->name('tienda');
+    Route::get('/game', [GameController::class, 'index'])->name('game');
     Route::post('/sobre', [TiendaController::class, 'sobre'])->name('tienda.sobre');
     Route::post('/AddUserCard', [TiendaController::class, 'addCardToUser'])->name('user.card');
 
@@ -60,10 +62,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
     Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
     Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
-
     //Rutas Socket
-    
     WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);
-
-
 });

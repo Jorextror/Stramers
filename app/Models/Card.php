@@ -48,7 +48,7 @@ class Card extends Model
     {
         try {
             return['status'=>200,'value'=> Card::query()
-            ->with('name')
+            ->where('obtainable', true)
             ->get()
             ];
 

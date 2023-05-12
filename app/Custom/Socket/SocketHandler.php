@@ -2,6 +2,7 @@
 namespace App\Custom\Socket;
 
 use App\Models\User;
+use BeyondCode\LaravelWebSockets\Server\Logger\ConnectionLogger;
 use Exception;
 use Ratchet\ConnectionInterface;
 use Ratchet\RFC6455\Messaging\MessageInterface;
@@ -26,12 +27,15 @@ class SocketHandler implements MessageComponentInterface
         $connection->app =  new \stdClass();
         $connection->app->id = 'jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m';
 
-        $this->clients[$socketId] = $connection;
+        // $this->clients[$socketId] = $connection;
+        $connection->send($connection);
+
     }
 
     public function onClose(ConnectionInterface $connection)
     {
         // TODO: Implement onClose() method.
+        unset($this->clients[$connection->socketId]);
         $usuario = $this->user->query()->where('socket_id',$connection->socketId)->first();
         $usuario->set_socket_id(null);
     }
@@ -52,10 +56,10 @@ class SocketHandler implements MessageComponentInterface
                 //Mensaje para el server
                 $usuario = $this->user->query()->where('nick',$data->data->user)->first();
                 $usuario->set_socket_id($connection->socketId);
+
             }else {
                 //Mensaje para otro usuario
                 $this->clients[$data->to]->send($data->data);
-                
             }
         }
     }

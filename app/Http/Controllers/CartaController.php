@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Carta\Carta;
 use App\Models\Card;
 use Illuminate\Http\Request;
 use App\Custom\Carta\Facades\CartaFacade;
@@ -86,5 +87,10 @@ class CartaController extends Controller
         return redirect()
         ->route('updateCarta',[$request->input("id")])
         ->with(["success"=>"Card added succesfully","carta"=>$card]);
+     }
+
+     public function get_all_cards()
+     {
+        return $this->card->get_all();
      }
 }
