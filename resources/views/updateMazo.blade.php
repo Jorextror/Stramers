@@ -64,7 +64,7 @@
 
   function addcard(name, category, id){
     if (count<=19 && !lista.includes(id)){
-      lista.push(id);
+      lista.push(parseInt(id));
       count++;
       $('#count').text(count);
       $('#lista').append('<li onclick=delcard("'+id+'","'+name+'") id="'+ id +'" class="list-group-item ms-3 p-2 '+category +'">' +name+ '</li>');
@@ -76,7 +76,11 @@
 
   function delcard(id,name){
     count--;
-    lista = lista.filter(name => name !== id);
+    // lista = lista.filter(name => name !== id);
+    console.log(lista.indexOf(parseInt(id)))
+    lista.splice(lista.indexOf(parseInt(id)),1);
+    console.log(lista)
+    console.log(name)
     $('#count').text(count);
     $("li").remove('#'+id);
     $('.'+name).removeClass('invisible')

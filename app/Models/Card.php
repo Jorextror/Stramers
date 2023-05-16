@@ -101,7 +101,6 @@ class Card extends Model
             return ['status'=>500,'value'=>$e];
         }
     }
-    //TODO añadir más maneras de buscar cartas
 
     /**
      * @param request Información del formulario

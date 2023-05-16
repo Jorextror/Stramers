@@ -102,7 +102,8 @@ class Deck extends Model
             if ($request->has('name') && $request->has('user_id') && $request->has('cards')) {
 
                 $deck = $this::query()->where('user_id', $request->input('user_id'))->first();
-                $deck->cards()->sync($request->input('cards'));
+                $deck->cards()->sync([]);
+                $deck->cards()->attach($request->input('cards'));
                 $deck->update(['name'=>$request->input('name')]);
 
                 return true;
