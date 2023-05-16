@@ -42,10 +42,10 @@ class Deck extends Model
     public function get_deck_by_id($deck_id)
     {
         try {
-            $deck = Deck::query()
+            $deck = $this::query()
                ->where('id',$deck_id)
-               ->get();
-            if (! empty($card)) {
+               ->first();
+            if (! empty($deck)) {
                 return ['status'=> 200, 'value'=>$deck];
             }else{
                 return ['status'=> 404, 'value'=>null];
@@ -63,7 +63,7 @@ class Deck extends Model
     public function get_deck_by_name($deck_name)
     {
         try {
-            $deck = Deck::query()
+            $deck = $this::query()
                ->where('id',$deck_name)
                ->get();
 
@@ -90,6 +90,24 @@ class Deck extends Model
             $deck->cards()->attach($request->input('cards'));
 
             return true;
+
+        } catch (Error $e) {
+           return null;
+        }
+    }
+
+    public function updateDeck(Request $request)
+    {
+        try {
+            if ($request->has('name') && $request->has('user_id') && $request->has('cards')) {
+
+                $deck = $this::query()->where('user_id', $request->input('user_id'))->first();
+                $deck->cards()->sync($request->input('cards'));
+                $deck->update(['name'=>$request->input('name')]);
+
+                return true;
+            }
+            return false;
 
         } catch (Error $e) {
            return null;

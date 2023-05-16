@@ -18,7 +18,7 @@
     <a href="{{  route("new.mazo") }}"><img src="{{ asset('img/+.png') }}"></a>
     @isset($mazos)
         @foreach($mazos as $mazo)
-            <x-mazo nombre="{{ $mazo->name }}"></x-mazo>
+            <a href="{{ route('mazo.update.index',$mazo->id) }}"><x-mazo nombre="{{ $mazo->name }}"></x-mazo></a>
         @endforeach
     @endisset
 

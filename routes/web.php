@@ -40,28 +40,36 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sobre', [TiendaController::class, 'sobre'])->name('tienda.sobre');
     Route::post('/AddUserCard', [TiendaController::class, 'addCardToUser'])->name('user.card');
 
-    //Rutas Mensajes
-    Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');//No se usa
-    Route::post('/addFriend', [MensajeController::class, 'addFriend'])->name('user.new.friend');
-    Route::post('/removeNotification', [MensajeController::class, 'removeNotifiation'])->name('user.eliminar.notificacion');
-    Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
-    Route::post('/getNotifications', [MensajeController::class, 'getNotifications'])->name('user.notifications');
+    Route::prefix('user')->group(function(){
+        //Rutas Mensajes
+        Route::post('/message', [MensajeController::class, 'new'])->name('user.new.message');//No se usa
+        Route::post('/addFriend', [MensajeController::class, 'addFriend'])->name('user.new.friend');
+        Route::post('/removeNotification', [MensajeController::class, 'removeNotifiation'])->name('user.eliminar.notificacion');
+        Route::post('/friendRequest', [MensajeController::class, 'friendRequest'])->name('user.request.friend');
+        Route::post('/getNotifications', [MensajeController::class, 'getNotifications'])->name('user.notifications');
+        //Rutas Usuario
+        Route::post('/get-friends',[MensajeController::class, 'getFriends'])->name('user.get.friends');
+        Route::get('/settings', [SettingsController::class, 'index'])->name('user.settings');
+        Route::post('/changeSettings', [SettingsController::class, 'changeSettings'])->name('user.update.settings');
+        // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
+    });
 
-    //Rutas Usuario
-    Route::post('/get-friends',[MensajeController::class, 'getFriends'])->name('user.get.friends');
-    // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
     //Rutas Mazos
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');
-    Route::get('/settings', [SettingsController::class, 'index'])->name('user.settings');
     Route::post('/AddMazo', [MazoController::class, 'add'])->name('mazo.store');
-    Route::post('/changeSettings', [SettingsController::class, 'changeSettings'])->name('user.update.settings');
+    Route::get('/update/{id}', [MazoController::class, 'update'])->name('mazo.update.index');
+    Route::post('/updateDeck', [MazoController::class, 'updateDeck'])->name('update.mazo');
 
-    //Rutas Super admin
-    Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
-    Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
-    Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
-    Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
+    Route::prefix('admin')->group(function(){
+        //Rutas Super admin
+        Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
+        Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
+        Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
+        Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
+
+    });
+
     //Rutas Socket
     WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);
 });

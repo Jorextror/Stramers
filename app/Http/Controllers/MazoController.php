@@ -15,9 +15,11 @@ class MazoController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $deck;
+    public function __construct(Deck $deck)
     {
         $this->middleware('auth');
+        $this->deck = $deck;
     }
 
      /**
@@ -40,6 +42,23 @@ class MazoController extends Controller
    {
        return view('createMazo', ['cartas'=>Auth::user()->cards]);
    }
+    /**
+    * Devuelve la vista updateMazo
+    *
+    * @return view
+    */
+   public function update($id)
+   {
+        $mazo = $this->deck->get_deck_by_id($id);
+        $mazoName = $mazo['value']->name;
+        $mazo = $mazo['value']->cards->toArray();
+        $mazoJSON = json_encode($mazo);
+        $cards = array_map(function($carta){
+            return $carta['id'];
+        }, $mazo);
+
+        return view('updateMazo', ['cartas'=>Auth::user()->cards, 'mazo'=>$mazo, 'idCartasMazo'=>$cards, 'mazoJSON'=>$mazoJSON, 'mazoName'=>$mazoName]);
+   }
 
     /**
     * Crea el mazo para el usuario
@@ -53,4 +72,18 @@ class MazoController extends Controller
     }
        return null;
    }
+
+    /**
+    * Actualiza el mazo para el usuario
+    *
+    * @return view
+    */
+   public function updateDeck(Request $request)
+   {
+    if ($request->hasAny('cards')) {
+        return $this->deck->updateDeck($request);
+    }
+       return null;
+   }
+
 }
