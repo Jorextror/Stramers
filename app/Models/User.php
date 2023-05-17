@@ -254,7 +254,57 @@ class User extends Authenticatable
                 return $user;
             }
         } catch (Exception $e) {
-            return $e->getMessage();
+            return null;
+            // return $e->getMessage();
+        }
+    }
+
+    /**
+     * Selecciona el mazo que utilizará el usuario por defecto
+     */
+    public function select_mazo(Request $request)
+    {
+        try
+        {
+            if ($request->has('name')) {
+                $desMazo = Deck::query()
+                                ->where('selected',1)
+                                ->where('user_id',Auth::user()->id)
+                                ->first();
+
+                if($desMazo) $desMazo->update(['selected'=>0]);
+
+                $mazo = Deck::query()
+                            ->where('name',$request->input('name'))
+                            ->where('user_id',Auth::user()->id)
+                            ->first();
+
+                if($mazo->selected)return false;
+
+                $mazo->update(['selected'=>1]);
+                return $mazo->cards;
+            }
+            return false;
+        } catch (Exception $e)
+        {
+            return null;
+            // return $e->getMessage();
+        }
+    }
+
+    public function get_selected_mazo()
+    {
+        try
+        {
+            $selected = Deck::query()
+                        ->where('selected', 1)
+                        ->where('user_id',Auth::user()->id)
+                        ->first();
+            return $selected;
+
+        } catch (Exception $e)
+        {
+            return null;
         }
     }
 

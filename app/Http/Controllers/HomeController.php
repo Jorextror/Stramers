@@ -25,7 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home')->with(["mazos"=>Auth::user()->decks,"notificaciones"=>count(Auth::user()->unreadNotifications)]);
+        $mazoSelected = Auth::user()->get_selected_mazo();
+
+        $selected = $mazoSelected!=null ? $mazoSelected:null;
+
+        return view('home')->with(["mazos"=>Auth::user()->decks,"notificaciones"=>count(Auth::user()->unreadNotifications), 'selected'=>$selected ]);
         // return view('home');
     }
 }

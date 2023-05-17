@@ -16,10 +16,12 @@ class MazoController extends Controller
      * @return void
      */
     private $deck;
-    public function __construct(Deck $deck)
+    private $user;
+    public function __construct(Deck $deck, User $user)
     {
         $this->middleware('auth');
         $this->deck = $deck;
+        $this->user = $user;
     }
 
      /**
@@ -84,6 +86,25 @@ class MazoController extends Controller
         return $this->deck->updateDeck($request);
     }
        return null;
+   }
+
+   /**
+    * Elimina el mazo pasado por parámetro
+    */
+   public function remove(Request $request)
+   {
+    if ($request->has('id')) {
+        return $this->deck->remove($request);
+    }
+    return null;
+   }
+
+   public function select(Request $request)
+   {
+    if ($request->has('name')) {
+        return $this->user->select_mazo($request);
+    }
+    return null;
    }
 
 }

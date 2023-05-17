@@ -77,10 +77,7 @@
   function delcard(id,name){
     count--;
     // lista = lista.filter(name => name !== id);
-    console.log(lista.indexOf(parseInt(id)))
     lista.splice(lista.indexOf(parseInt(id)),1);
-    console.log(lista)
-    console.log(name)
     $('#count').text(count);
     $("li").remove('#'+id);
     $('.'+name).removeClass('invisible')
@@ -100,7 +97,7 @@
             contentType: 'application/json',
             success: function(data) {
                 console.log(data);
-                window.location.href("{{ url('/mazo') }}");
+                window.location.href = '{{ route("mazo") }}';
             },
             error: function(error) {
                 console.log(error);
@@ -108,7 +105,22 @@
 
         })
     }else{
-        console.log("{{  __('Necesitaas 20 cartas para guardar') }}");
+        const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+        Toast.fire({
+                            icon: 'error',
+                            title: '{{ __("Error el mazo ha de tener 20 cartas") }}'
+                        })
+
     }
   }
 

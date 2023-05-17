@@ -52,7 +52,7 @@
     <div class="llista_mazos">
         @isset($mazos)
             @foreach($mazos as $mazo)
-                <x-mazo nombre="{{ $mazo->name }}"></x-mazo>
+                <a onclick='select("{{ $mazo->name }}")'><x-mazo nombre="{{ $mazo->name }}"></x-mazo></a>
             @endforeach
         @endisset
     </div>
@@ -60,11 +60,46 @@
 </div>
 {{-- box empezar partida --}}
 <div class="start-box bg-light">
-    <div class="mazo_select"></div>
-    <div class="btn-play" ><a class="noselect">{{ __('Battle') }}</a></div>
+    <ul class="mazo_select container-fluid list-group">
+    </ul>
+    <div class="btn-play" ><a class="noselect text-decoration-none">{{ __('Battle') }}</a></div>
 </div>
 @endsection
 <script>
+    @isset($selected)
+        document.addEventListener("DOMContentLoaded", function(event) {
+            cardsTemp = @json($selected);
+            cards = JSON.parse(cardsTemp)
+            for (const card of cards) {
+                        $('.mazo_select').append('<li id="'+ card.id +'" class=" list-group-item '+card.category +'">' +card.name+ '</li>');
+                    }
+        });
+    @endisset
+    function select(name)
+    {
+        $.ajax({
+            url: "{{ route('user.mazo.select') }}",
+            type: 'POST',
+            data: {
+                ' _token': '{{ csrf_token() }}',
+                'name': name
+            },
+            async: false,
+            success:function(data){
+                if (!data) {
+                    for (const card of data) {
+                        $('.mazo_select').append('<li id="'+ card.id +'" class=" list-group-item '+card.category +'">' +card.name+ '</li>');
+                    }
+                }else{
+                    $('.mazo_select').empty()
+                }
+            },
+            error: function(error){
+                console.log(error)
+            }
+        })
+    }
+
     var numNotis = 0;
     function eliminar(id) {
         $("."+id).remove()

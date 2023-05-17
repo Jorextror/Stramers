@@ -51,13 +51,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/get-friends',[MensajeController::class, 'getFriends'])->name('user.get.friends');
         Route::get('/settings', [SettingsController::class, 'index'])->name('user.settings');
         Route::post('/changeSettings', [SettingsController::class, 'changeSettings'])->name('user.update.settings');
+        Route::post('/select', [MazoController::class, 'select'])->name('user.mazo.select');
         // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
     });
 
     //Rutas Mazos
     Route::get('/mazo', [MazoController::class, 'index'])->name('mazo');
     Route::get('/new', [MazoController::class, 'new'])->name('new.mazo');
-    Route::post('/AddMazo', [MazoController::class, 'add'])->name('mazo.store');
+    Route::post('/addMazo', [MazoController::class, 'add'])->name('mazo.store');
+    Route::post('/removeMazo', [MazoController::class, 'remove'])->name('mazo.remove');
     Route::get('/update/{id}', [MazoController::class, 'update'])->name('mazo.update.index');
     Route::post('/updateDeck', [MazoController::class, 'updateDeck'])->name('update.mazo');
 

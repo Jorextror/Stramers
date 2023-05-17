@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Error;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,7 +51,7 @@ class Deck extends Model
             }else{
                 return ['status'=> 404, 'value'=>null];
             }
-        } catch (Error $e) {
+        } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }
@@ -72,7 +73,7 @@ class Deck extends Model
             }else{
                 return ['status'=> 404, 'value'=>null];
             }
-        } catch (Error $e) {
+        } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
         }
     }
@@ -91,7 +92,7 @@ class Deck extends Model
 
             return true;
 
-        } catch (Error $e) {
+        } catch (Exception $e) {
            return null;
         }
     }
@@ -102,16 +103,30 @@ class Deck extends Model
             if ($request->has('name') && $request->has('user_id') && $request->has('cards')) {
 
                 $deck = $this::query()->where('user_id', $request->input('user_id'))->first();
-                $deck->cards()->sync([]);
-                $deck->cards()->attach($request->input('cards'));
+                $deck->cards()->sync($request->input('cards'));
                 $deck->update(['name'=>$request->input('name')]);
 
                 return true;
             }
             return false;
 
-        } catch (Error $e) {
+        } catch (Exception $e) {
            return null;
+        }
+    }
+
+    public function remove(Request $request)
+    {
+        try {
+            if ($request->has('id')) {
+                $deck = $this::query()->where('id',$request->input('id'))->first();
+                $deck->update(['selected'=>0]);
+                $deck->delete();
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
     }
 }
