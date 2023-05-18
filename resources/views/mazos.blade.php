@@ -73,7 +73,7 @@
 
 <script>
     function init_eliminar() {
-        $('#invisible').toggleClass('invisible')
+        $('.btn-mazo').toggleClass('invisible')
         $('.btn-mazo').toggleClass('visible')
         $('.mazos').toggleClass('vibrate-1')
         $('#eliminar').toggleClass('eliminar')

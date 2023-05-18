@@ -62,14 +62,15 @@
 <div class="start-box bg-light">
     <ul class="mazo_select container-fluid list-group">
     </ul>
-    <div class="btn-play" ><a class="noselect text-decoration-none">{{ __('Battle') }}</a></div>
+    <div class="btn-play" ><a class="noselect text-decoration-none" onclick="match()">{{ __('Battle') }}</a></div>
 </div>
 @endsection
 <script>
+
     @isset($selected)
         document.addEventListener("DOMContentLoaded", function(event) {
             cardsTemp = @json($selected);
-            cards = JSON.parse(cardsTemp)
+            cards = JSON.parse(cardsTemp);
             for (const card of cards) {
                         $('.mazo_select').append('<li id="'+ card.id +'" class=" list-group-item '+card.category +'">' +card.name+ '</li>');
                     }
@@ -86,12 +87,12 @@
             },
             async: false,
             success:function(data){
-                if (!data) {
+                console.log(data)
+                if (data.length > 0) {
+                    $('.mazo_select').empty()
                     for (const card of data) {
                         $('.mazo_select').append('<li id="'+ card.id +'" class=" list-group-item '+card.category +'">' +card.name+ '</li>');
                     }
-                }else{
-                    $('.mazo_select').empty()
                 }
             },
             error: function(error){
@@ -329,4 +330,22 @@
         getFriends()
 
     }, 5000);
+
+    function match()
+    {
+        $.ajax({
+                url: "{{ route('user.match') }}",
+                type: 'GET',
+                data: {
+                    ' _token': '{{ csrf_token() }}',
+                    'nick': '{{ Auth::user()->nick }}'
+                },
+                success: function(data){
+                    console.log(data)
+                },
+                error: function(data){
+                    console.log(data)
+                }
+            })
+    }
 </script>

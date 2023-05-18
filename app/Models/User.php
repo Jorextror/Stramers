@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Custom\User\UserValidator;
+use App\Jobs\MatchMaking;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -143,9 +144,14 @@ class User extends Authenticatable
                 $user = User::query()->where('nick',$request['user'])->first();
                 $request_cards = $request['data'];
                 //Hacemos una búsqueda de las IDs de las cartas que actualmente tiene el usuario
-                $cartas_user = $user->cards->toQuery()->pluck('id')->toArray();
-                //Comparamos las cartas, las que el usuario ya tiene no se añadirán
-                $cartas_nuevas = array_diff($request_cards, $cartas_user);
+                if(count($user->cards)>0)
+                {
+                    $cartas_user = $user->cards->toQuery()->pluck('id')->toArray();
+                    //Comparamos las cartas, las que el usuario ya tiene no se añadirán
+                    $cartas_nuevas = array_diff($request_cards, $cartas_user);
+                }else{
+                    $cartas_nuevas = $request_cards;
+                }
                 // Añade todas las tarjetas nuevas al usuario de una sola vez
                 $user->cards()->attach($cartas_nuevas);
 
@@ -181,6 +187,7 @@ class User extends Authenticatable
             }
             return null;
         } catch (Exception $e) {
+            // return ['status'=>500, 'value'=>$e->getMessage()];
             return ['status'=>500, 'value'=>$e->getMessage()];
         }
     }
@@ -267,19 +274,18 @@ class User extends Authenticatable
         try
         {
             if ($request->has('name')) {
+                $mazo = Deck::query()
+                ->where('name',$request->input('name'))
+                ->where('user_id',Auth::user()->id)
+                ->first();
+                if($mazo->selected == 1)return false;
+
                 $desMazo = Deck::query()
                                 ->where('selected',1)
                                 ->where('user_id',Auth::user()->id)
                                 ->first();
 
                 if($desMazo) $desMazo->update(['selected'=>0]);
-
-                $mazo = Deck::query()
-                            ->where('name',$request->input('name'))
-                            ->where('user_id',Auth::user()->id)
-                            ->first();
-
-                if($mazo->selected)return false;
 
                 $mazo->update(['selected'=>1]);
                 return $mazo->cards;
@@ -308,5 +314,24 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Busca otro jugador que esté buscando partida
+     */
+    public function get_match_user($user)
+    {
+        try
+        {
+            $this->status = 2;
+            $this->save();
+            $matchMaking = new MatchMaking($user);
+            $matchMaking->dispatch($user);
+            $otherUser = $matchMaking->getOutput();
+            return $otherUser;
+
+        } catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
 
 }

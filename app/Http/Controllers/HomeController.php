@@ -27,9 +27,9 @@ class HomeController extends Controller
     {
         $mazoSelected = Auth::user()->get_selected_mazo();
 
-        $selected = $mazoSelected!=null ? $mazoSelected:null;
+        $selected = $mazoSelected!=null ? $mazoSelected->cards:null;
 
-        return view('home')->with(["mazos"=>Auth::user()->decks,"notificaciones"=>count(Auth::user()->unreadNotifications), 'selected'=>$selected ]);
+        return view('home')->with(["mazos"=>Auth::user()->decks,"notificaciones"=>count(Auth::user()->unreadNotifications), 'selected'=>json_encode($selected)]);
         // return view('home');
     }
 }

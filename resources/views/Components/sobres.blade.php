@@ -79,7 +79,7 @@ var config = {
                 $('#principal').replaceWith(datos)
             },
             error: function(data){
-                console.log(data.responseJSON)
+                console.log(data)
             }
         });
     }
