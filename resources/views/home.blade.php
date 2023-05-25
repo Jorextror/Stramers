@@ -341,7 +341,9 @@
                     'nick': '{{ Auth::user()->nick }}'
                 },
                 success: function(data){
-                    console.log(data)
+                    if (data == 1) {
+                        window.location.replace('{{ route("game") }}')
+                    }
                 },
                 error: function(data){
                     console.log(data)

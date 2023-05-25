@@ -27,8 +27,8 @@ class SocketHandler implements MessageComponentInterface
         $connection->app =  new \stdClass();
         $connection->app->id = 'jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m';
 
-        // $this->clients[$socketId] = $connection;
-        $connection->send($connection);
+        $this->clients[$socketId] = $connection;
+        // $connection->send($connection);
 
     }
 

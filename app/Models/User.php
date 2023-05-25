@@ -236,7 +236,7 @@ class User extends Authenticatable
             return null;
         }
     }
-    //FIX
+
     public function updateUser(Request $request)
     {
         try {
@@ -323,10 +323,7 @@ class User extends Authenticatable
         {
             $this->status = 2;
             $this->save();
-            $matchMaking = new MatchMaking($user);
-            $matchMaking->dispatch($user);
-            $otherUser = $matchMaking->getOutput();
-            return $otherUser;
+            
 
         } catch(Exception $e)
         {

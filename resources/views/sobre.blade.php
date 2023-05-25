@@ -12,8 +12,10 @@
             </div>
         @endforeach
     @endisset
+    <div class="btn-play">
+        <a class="noselect text-decoration-none"   onclick="location.reload()">{{ __('Return to Shop') }}</a>
+    </div>
 </div>
-<div class="btn-play return_button" ><a class="noselect text-decoration-none" style="color: black;" onclick="location.reload()">{{ __('Return to Shop') }}</a></div>
 <script>
     let user = '{{ Auth::user()->nick }}'
     let id = JSON.parse('{{ $id }}')

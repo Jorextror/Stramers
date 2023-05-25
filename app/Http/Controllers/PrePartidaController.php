@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Exception;
 
 class PrePartidaController extends Controller
 {
@@ -19,12 +20,20 @@ class PrePartidaController extends Controller
 
     public function getInMatchMaking(Request $request)
     {
-        if ($request->has('nick'))
-        {
-            $user = User::query()->where('nick',$request->input('nick'))->first();
-            $other = $user->get_match_user($user);
-            return $other;
+        try{
+
+            if ($request->has('nick'))
+            {
+                $user = User::query()->where('nick',$request->input('nick'))->first();
+                $user->get_match_user($user);
+                return true;
+            }
+            return false;
+
+        }catch(Exception $e){
+            return null;
         }
+
     }
 
 }

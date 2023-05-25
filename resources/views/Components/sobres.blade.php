@@ -20,14 +20,14 @@
 </style>
 </div>
 <div id="principal" class="container">
-    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span>
-    <button id="normal" class="button-add sobre"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
+        <button id="normal" class="button-add sobre"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
+        <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span>
 
-    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['supersobre'] }}</span>
-    <button id="supersobre" class="button-add sobre"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>
+        <button id="supersobre" class="button-add sobre"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>
+        <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['supersobre'] }}</span>
 
-    <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['megasobre'] }}</span>
-    <button id="megasobre" class="button-add sobre"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
+        <button id="megasobre" class="button-add sobre"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
+        <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['megasobre'] }}</span>
 </div>
 
 <canvas id="canvas"></canvas>
@@ -37,12 +37,10 @@
 var colorPalette = {
     bg: {r:255,g:255,b:255},
     matter: [
-    //{r:0,g:0,b:0}, // darkPRPL
-    //{r:78,g:36,b:42}, // rockDust
-    //{r:252,g:178,b:96}, // solorFlare
-    //{r:253,g:238,b:152} // totesASun
+    {r:255,g:255,b:255} // darkPRPL
     ]
 };
+
 var config = {
   particleNumber: 2000,
   maxParticleSize: 5,
