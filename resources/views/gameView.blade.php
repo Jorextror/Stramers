@@ -112,8 +112,8 @@ class Game extends Phaser.Scene{
         this.SocketHandler = new SocketHandler(this);
         this.UIHandler = new UIHandler(this);
 
-        this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game', '{{ csrf_token() }}')
-        // this.SocketHandler.connect('{{ url(":6001/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game") }}')
+        this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game', '{{ csrf_token() }}', '{{ Auth::user()->nick }}');
+
     }
     update() {
 

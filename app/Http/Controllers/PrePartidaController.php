@@ -25,7 +25,7 @@ class PrePartidaController extends Controller
             if ($request->has('nick'))
             {
                 $user = User::query()->where('nick',$request->input('nick'))->first();
-                $user->get_match_user($user);
+                // $user->set_status(2);
                 return true;
             }
             return false;

@@ -75,5 +75,5 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //Rutas Socket
-    WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);
 });
+WebSocketsRouter::webSocket('/{appkey}/game',SocketHandler::class);

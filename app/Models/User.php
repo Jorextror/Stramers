@@ -315,15 +315,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Busca otro jugador que esté buscando partida
+     * Cambia el status del jugador al pasado por parámetro
      */
-    public function get_match_user($user)
+    public function set_status($status)
     {
         try
         {
-            $this->status = 2;
+            $this->status = $status;
             $this->save();
-            
+
 
         } catch(Exception $e)
         {
