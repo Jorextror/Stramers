@@ -7,6 +7,11 @@ use Exception;
 
 class GetMatch
 {
+    /**
+     * Busca a un usuario que esté en proceso de encontrar partida
+     * @param String Id del socket del usuario Master
+     * @return Array usuarios master y slave
+     */
     public function getMatch($socketId)
     {
         try
@@ -18,15 +23,20 @@ class GetMatch
 
             $userSlave = User::query()
             ->where('status',2)
-            ->get();
-            if (count($userSlave)>0) {
+            ->where('id','<>',$userMaster->id)
+            ->first();
+            if ($userSlave != null) {
                 $userMaster->set_status(3);
                 $userSlave->set_status(3);
+                return ['user_master'=>$userMaster, 'userSlave'=>$userSlave];
             }
+
+            return false;
 
 
         }catch(Exception $e){
-            return null;
+            // return null;
+            return $e->getMessage();
         }
     }
 }

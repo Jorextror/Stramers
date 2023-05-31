@@ -6,16 +6,19 @@ use Exception;
 use Ratchet\ConnectionInterface;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
+use App\Custom\Socket\Func\GetMatch;
+use App\Custom\Socket\Func\ProcesarMensaje;
 
 class SocketHandler implements MessageComponentInterface
 {
     public $clients;
     public $rooms;
     public $user;
-
-    public function __construct(User $user)
+    private $process;
+    public function __construct(User $user, ProcesarMensaje $process)
     {
         $this->user = $user;
+        $this->process = $process;
     }
 
     public function onOpen(ConnectionInterface $connection)
@@ -52,16 +55,8 @@ class SocketHandler implements MessageComponentInterface
 
         if (strlen($msg->__toString()) > 0) {
             $data = json_decode($msg->__toString());
-            if ($data->to == 'srv') {
-                //Mensaje para el server
-                $usuario = $this->user->query()->where('nick',$data->data->user)->first();
-                $usuario->set_socket_id($connection->socketId);
-                $usuario->set_status(2);
+            $this->process->process($data,$connection->socketId);//TEST
 
-            }else {
-                //Mensaje para otro usuario
-                $this->clients[$data->to]->send($data->data);
-            }
         }
     }
 }

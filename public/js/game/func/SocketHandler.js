@@ -1,6 +1,7 @@
 // import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 export default class SocketHandler {
     constructor(scene){
+        this.socket;
     }
 
     /**
@@ -10,16 +11,22 @@ export default class SocketHandler {
      * @param {str} user Nick del usuario
      */
     connect(url,token,user) {
-        scene.socket = new WebSocket(url);
-        scene.socket.onopen = () => {
-            scene.socket.send(JSON.stringify({"to":"srv","data":{"user":user}}));
+        this.socket = new WebSocket(url);
+        this.socket.onopen = () => {
+            this.socket.send(JSON.stringify({
+                "to":"srv",
+                "data":
+                {
+                    "user":user
+                }
+            }));
             return true;
         }
         return false;
     }
 
     main(){
-        scene.socket.send(JSON.stringify(
+        this.socket.send(JSON.stringify(
             {
                 "to":"srv",
                 "data":
@@ -27,6 +34,7 @@ export default class SocketHandler {
                         "msg":"GetMatch"
                     }
             }));
+            console.log()
     }
 
 
