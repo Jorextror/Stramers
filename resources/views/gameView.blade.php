@@ -13,7 +13,6 @@ import DeckHandler from "{{ asset('js/game/func/DeckHandler.js') }}"
 import InteractiveHandler from "{{ asset('js/game/func/InteractiveHandler.js') }}"
 import SocketHandler from "{{ asset('js/game/func/SocketHandler.js') }}"
 import UIHandler from "{{ asset('js/game/func/UIHandler.js') }}"
-
 class Game extends Phaser.Scene{
 
     constructor(){
@@ -22,6 +21,7 @@ class Game extends Phaser.Scene{
         })
 
     }
+
     preload(){
         // var progressBar = this.add.graphics();
         //     var width = this.cameras.main.width;
@@ -112,10 +112,8 @@ class Game extends Phaser.Scene{
         this.SocketHandler = new SocketHandler(this);
         this.UIHandler = new UIHandler(this);
 
-        this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game', '{{ csrf_token() }}', '{{ Auth::user()->nick }}');
-        setTimeout(() => {
-            this.SocketHandler.main()
-        }, 1000);
+        const socket = this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game', '{{ csrf_token() }}', '{{ Auth::user()->nick }}')
+        this.SocketHandler.main(socket);
     }
     update() {
 

@@ -9,15 +9,28 @@ class ProcesarMensaje
 {
     public $user;
     public $match;
+
     public function __construct(User $user, GetMatch $match)
     {
         $this->user = $user;
         $this->match = $match;
     }
-    /**
-     *TODO testear todo
-     */
-    public function process($data, $socket_id)
+
+    public function getMatch($socket_id)
+    {
+        $encontrado = false;
+        do {
+
+            $usuarios = $this->match->getMatch($socket_id);
+            if($usuarios != false)$encontrado = true;
+            sleep(2);
+
+        } while ($encontrado);
+
+        return $usuarios;
+    }
+
+    public function process($data, $socket_id, $socket)
     {
         try
         {
@@ -28,16 +41,9 @@ class ProcesarMensaje
             }
 
             if (property_exists($data->data,'msg')) {
-                $encontrado = false;
-                do {
 
-                    $usuarios = $this->match->getMatch($socket_id);
-                    if(!$usuarios)$encontrado = true;
-                    sleep(2);
+                if($data->data->msg == 'GetMatch')return $this->getMatch($socket_id);
 
-                } while ($encontrado);
-
-                return $usuarios;
             }
 
         }catch(Exception $e)

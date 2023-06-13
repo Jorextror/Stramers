@@ -39,7 +39,7 @@ class SocketHandler implements MessageComponentInterface
         // TODO: Implement onClose() method.
         unset($this->clients[$connection->socketId]);
         $usuario = $this->user->query()->where('socket_id',$connection->socketId)->first();
-        $usuario->set_socket_id(null);
+        // $usuario->set_socket_id(null);
     }
 
     public function onError(ConnectionInterface $connection, \Exception $e)
@@ -55,8 +55,7 @@ class SocketHandler implements MessageComponentInterface
 
         if (strlen($msg->__toString()) > 0) {
             $data = json_decode($msg->__toString());
-            $this->process->process($data,$connection->socketId);//TEST
-
+            $this->process->process($data,$connection->socketId,$connection);
         }
     }
 }

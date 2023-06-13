@@ -1,7 +1,13 @@
-// import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 export default class SocketHandler {
     constructor(scene){
-        this.socket;
+        scene.socket;
+    }
+    /**
+     * Define el socket a utilizar
+     * @param {WebSocket} value
+     */
+    setSocket(value){
+        this.socket = value;
     }
 
     /**
@@ -11,30 +17,58 @@ export default class SocketHandler {
      * @param {str} user Nick del usuario
      */
     connect(url,token,user) {
-        this.socket = new WebSocket(url);
-        this.socket.onopen = () => {
-            this.socket.send(JSON.stringify({
-                "to":"srv",
-                "data":
-                {
-                    "user":user
-                }
-            }));
-            return true;
-        }
-        return false;
-    }
-
-    main(){
-        this.socket.send(JSON.stringify(
-            {
-                "to":"srv",
-                "data":
+        var socket = new WebSocket(url);
+            socket.onopen = () => {
+                socket.send(JSON.stringify({
+                    "to":"srv",
+                    "data":
                     {
-                        "msg":"GetMatch"
+                        "user":user
                     }
-            }));
-            console.log()
+                })
+            );
+        }
+        return socket;
+
+    }
+    async connection (socket, timeout = 10000) {
+        const isOpened = () => (socket.readyState === WebSocket.OPEN)
+
+        if (socket.readyState !== WebSocket.CONNECTING) {
+          return isOpened()
+        }
+        else {
+          const intrasleep = 100
+          const ttl = timeout / intrasleep // time to loop
+          let loop = 0
+          while (socket.readyState === WebSocket.CONNECTING && loop < ttl) {
+            await new Promise(resolve => setTimeout(resolve, intrasleep))
+            loop++
+          }
+          return isOpened()
+        }
+      }
+
+    async main(socket){
+        const opened = await this.connection(socket)
+        if (opened) {
+            socket.send(JSON.stringify(
+                {
+                    "to":"srv",
+                    "data":
+                        {
+                            "msg":"GetMatch"
+                        }
+                }));
+            socket.onmessage = (event) => {
+                console.log(event.data)
+            }
+        }
+        else {
+            console.log("the socket is closed OR couldn't have the socket in time, program crashed");
+            return
+        }
+
     }
 
 
