@@ -1,6 +1,8 @@
+import ProcessMsg from './SocketFunctions/ProcessMsg.js';
 export default class SocketHandler {
     constructor(scene){
         scene.socket;
+        this.processMsg = new ProcessMsg();
     }
     /**
      * Define el socket a utilizar
@@ -31,43 +33,42 @@ export default class SocketHandler {
         return socket;
 
     }
-    async connection (socket, timeout = 10000) {
-        const isOpened = () => (socket.readyState === WebSocket.OPEN)
 
-        if (socket.readyState !== WebSocket.CONNECTING) {
-          return isOpened()
-        }
-        else {
-          const intrasleep = 100
-          const ttl = timeout / intrasleep // time to loop
-          let loop = 0
-          while (socket.readyState === WebSocket.CONNECTING && loop < ttl) {
-            await new Promise(resolve => setTimeout(resolve, intrasleep))
-            loop++
-          }
-          return isOpened()
-        }
-      }
+    /**
+     * Espera a que la conexión esté abierta
+     *
+     * @param {WebSocket} socket
+     * @param {Integer} timeout
+     * @returns {Boolean}
+     */
+    // async connection (socket, timeout = 10000) {
+    //     const isOpened = () => (socket.readyState === WebSocket.OPEN)
 
+    //     if (socket.readyState !== WebSocket.CONNECTING) {
+    //       return isOpened()
+    //     }
+    //     else {
+    //       const intrasleep = 100
+    //       const ttl = timeout / intrasleep // time to loop
+    //       let loop = 0
+    //       while (socket.readyState === WebSocket.CONNECTING && loop < ttl) {
+    //         await new Promise(resolve => setTimeout(resolve, intrasleep))
+    //         loop++
+    //       }
+    //       return isOpened()
+    //     }
+    //   }
+
+    /**
+     * Proceso principal
+     *
+     * @param {WebSocket} socket
+     * @returns
+     */
     async main(socket){
-        const opened = await this.connection(socket)
-        if (opened) {
-            socket.send(JSON.stringify(
-                {
-                    "to":"srv",
-                    "data":
-                        {
-                            "msg":"GetMatch"
-                        }
-                }));
             socket.onmessage = (event) => {
-                console.log(event.data)
+                this.processMsg.process(event.data, socket)
             }
-        }
-        else {
-            console.log("the socket is closed OR couldn't have the socket in time, program crashed");
-            return
-        }
 
     }
 

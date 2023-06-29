@@ -139,7 +139,7 @@ class User extends Authenticatable
     public static function AddCard(Request $request)
     {
         try {
-            if ($request->has('data')) {
+            if ($request->has('data') && $request->has('user')) {
                 $money = 0;
                 $user = User::query()->where('nick',$request['user'])->first();
                 $request_cards = $request['data'];

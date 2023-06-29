@@ -55,7 +55,11 @@ class SocketHandler implements MessageComponentInterface
 
         if (strlen($msg->__toString()) > 0) {
             $data = json_decode($msg->__toString());
-            $this->process->process($data,$connection->socketId,$connection);
+            $returned_data = $this->process->process($data,$connection->socketId,$connection);
+            if ($returned_data['status'] == 200) {
+
+            }
+
         }
     }
 }

@@ -16,7 +16,7 @@ class ProcesarMensaje
         $this->match = $match;
     }
 
-    public function getMatch($socket_id)
+    public function getMatch($socket_id)//OK
     {
         $encontrado = false;
         do {
@@ -34,22 +34,28 @@ class ProcesarMensaje
     {
         try
         {
-            if (property_exists($data->data,'nick')) {
+            if (property_exists($data->data,'user')) {
                 $usuario = $this->user->query()->where('nick',$data->data->user)->first();
                 $usuario->set_socket_id($socket_id);
                 $usuario->set_status(2);
+                return ['status'=>200,'value'=>true];
             }
 
             if (property_exists($data->data,'msg')) {
 
-                if($data->data->msg == 'GetMatch')return $this->getMatch($socket_id);
+                if($data->data->msg == 'GetMatch'){
+                    $users_in_match = $this->getMatch($socket_id);
+                    return ['status'=>200,'value'=>$users_in_match];
+                }
 
             }
+
+            return ['status'=>400, 'value'=>null];
 
         }catch(Exception $e)
         {
             // return $e->getMessage();
-            return null;
+            return ['status'=>500, 'value'=> null];
         }
     }
 }
