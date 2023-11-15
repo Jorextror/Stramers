@@ -221,13 +221,13 @@ class User extends Authenticatable
      * @param $user Usuario a cambiar el status
      * @return bool
      */
-    public static function changeStatus($status)
+    public function changeStatus($status)
     {
         try {
 
             if (is_int($status)) {
-               $user->status = $status;
-               $user->save();
+               $this->status = $status;
+               $this->save();
                return true;
             }
             return false;
