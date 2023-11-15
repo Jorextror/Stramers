@@ -221,7 +221,7 @@ class User extends Authenticatable
      * @param $user Usuario a cambiar el status
      * @return bool
      */
-    public static function changeStatus($status, User $user)
+    public static function changeStatus($status)
     {
         try {
 
