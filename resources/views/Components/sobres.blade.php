@@ -20,6 +20,7 @@
 </style>
 </div>
 <div id="principal" class="container">
+    @isset($sobres)
         <button id="normal" class="button-add sobre"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
         <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span>
 
@@ -28,6 +29,8 @@
 
         <button id="megasobre" class="button-add sobre"  onclick="sobre('megasobre')" ><img style="width:300px;" src="{{ asset('img/mega.gif') }}" alt=""></button>
         <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['megasobre'] }}</span>
+    @endisset
+
 </div>
 
 <canvas id="canvas"></canvas>
