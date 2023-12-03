@@ -1,6 +1,7 @@
 <?php
 
 use App\Custom\Socket\SocketHandler;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin')->group(function(){
         //Rutas Super admin
+        Route::get('/home',[AdminController::class,'index'])->name('admin.home')->middleware('superadmin');
         Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
         Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
         Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');

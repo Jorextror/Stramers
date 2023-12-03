@@ -44,4 +44,7 @@ class SettingsController extends Controller
         return view('updateUser',['user'=>Auth::user(), 'cartas'=>$cartas, 'backgrounds' => $backgrounds,"success"=>"Settings updated"]);
 
     }
+
+
+
 }

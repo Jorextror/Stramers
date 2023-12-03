@@ -16,6 +16,13 @@
     <a class="dropdown-item text-muted" href="{{ route('user.settings') }}">
         {{ __('Settings') }}
     </a>
+
+    @if (Auth::user()->is_sa())
+    <a class="dropdown-item text-muted" href="{{ route('admin.home') }}">
+        {{ __('Admin') }}
+    </a>
+
+    @endif
     <a class="dropdown-item text-muted" href="{{ route('logout') }}"
     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
