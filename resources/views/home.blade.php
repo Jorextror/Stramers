@@ -50,7 +50,7 @@
 <a id="alert_ico" class="alertes" onclick="getNotifications()">
     <img style="width: 30px" src="{{ asset('img/alerts.svg') }}">
     <span id="notis" class="position-absolute top-5 start-5 translate-middle badge rounded-pill bg-danger">
-
+        0
     <span class="visually-hidden">unread messages</span>
     </span>
 </a>
@@ -328,9 +328,6 @@
         getFriends()
         getNumNotis()
    });
-    // $(document).ready(function() {
-
-    // });
 
     setInterval(() => {
         getNumNotis()
