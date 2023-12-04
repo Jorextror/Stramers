@@ -12,10 +12,10 @@
 </style>
 
 <div class="lateral ">
-    <input class="name_mazo" type="text" id="name" value="{{ __('Mazo nuevo') }}"> <span id="count">0</span> /20
+    <input class="name_mazo" type="text" id="name" value="{{ __('New Deck') }}"> <span id="count">0</span> /20
     <ul id="lista" class="container-fluid list-group"></ul>
-    <div class=""> <button class="guardar" onclick="guardar()" >{{ __('Guardar') }}</button></div>
-    <div class=""> <a class="cancelar" href="{{ url('/mazo') }}" >{{ __('Cancelar') }}</a></div>
+    <div class=""> <button class="guardar" onclick="guardar()" >{{ __('Save') }}</button></div>
+    <div class=""> <a class="cancelar" href="{{ url('/mazo') }}" >{{ __('Cancel') }}</a></div>
 </div>
 
 <div class="container">

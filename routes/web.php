@@ -69,8 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->group(function(){
         //Rutas Super admin
         Route::get('/home',[AdminController::class,'index'])->name('admin.home')->middleware('superadmin');
-        Route::get('/carta', [CartaController::class, 'index'])->name('carta')->middleware('superadmin');
-        Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('updateCarta')->middleware('superadmin');
+        Route::get('/carta', [CartaController::class, 'index'])->name('admin.carta')->middleware('superadmin');
+        Route::get('/updateCarta/{id}', [CartaController::class, 'update'])->name('admin.update.carta')->middleware('superadmin');
         Route::post('/newCard', [CartaController::class, 'newCard'])->name('newCard')->middleware('superadmin');
         Route::post('/updateCard', [CartaController::class, 'updateCard'])->name('updateCard')->middleware('superadmin');
 

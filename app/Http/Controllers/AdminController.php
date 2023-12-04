@@ -16,10 +16,12 @@ class AdminController extends Controller
     public function index()
     {
 
-        $user = User::query()->where('id','>',1);
+        $desconectados = User::query()->where('id','>',0)->where('status',0)->count();
+        $conectados = User::query()->where('id','>',0)->where('status',1)->count();
+        $jugando = User::query()->where('id','>',0)->where('status',2)->count();
 
-        $user_data = [count($user->where('status',0)->get()),count($user->where('status',1)->get()),count($user->where('status',2)->get())];
+        $user_status_count = [$desconectados, $conectados, $jugando];
 
-        return view('admin.home',['data'=>json_encode($user_data)]);
+        return view('admin.home',['data'=>json_encode($user_status_count)]);
     }
 }
