@@ -11,10 +11,15 @@ class UserNotification
     public function friendRequest(Request $request)
     {
         try {
-
+            //TEST
             if ($request->has('nick') && $request->has('user_id') && $request->has('user_name')) {
                 $recipient = User::query()->where('nick', $request['nick'])->first();
-                if ($recipient->id != $request['user_id'] && $recipient->friends) {
+
+                $giver = User::query()->where('id',$request['user_id'])->first();
+
+                $friendsGiver = $giver->friends->pluck('id')->toarray();
+
+                if ($recipient->id != $request['user_id'] && ! in_array($recipient->id,$friendsGiver) ) {
                     //Generamos una notificación para el usuario al que le enviamos el mensaje
                     $recipient->notify(new FriendRequest($request['user_name']));
                     return true;

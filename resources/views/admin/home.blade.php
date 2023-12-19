@@ -19,6 +19,7 @@
             <canvas  id="myChart"></canvas>
         </div>
 
+        {{-- TODO --}}
         <table class="table col">
             <thead class="thead-dark">
               <tr class="table-dark">

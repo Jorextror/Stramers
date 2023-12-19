@@ -21,6 +21,7 @@ class SettingsController extends Controller
     {
         $cards = Auth::user()->cards->toArray();
         $backgrounds = Auth::user()->backgrounds->toArray();
+        $cartas=[];
 
         foreach ($cards as $key => $card) {
             $cartas[$card['name']] = $card['img'];
@@ -33,6 +34,8 @@ class SettingsController extends Controller
         $respuesta = UserValidator::validateUser($request);
         $cards = Auth::user()->cards->toArray();
         $backgrounds = Auth::user()->backgrounds->toArray();
+        $cartas=[];
+
         foreach ($cards as $key => $card) {
             $cartas[$card['name']] = $card['img'];
         }
@@ -42,9 +45,7 @@ class SettingsController extends Controller
         $user->updateUser($request);
 
         return view('updateUser',['user'=>Auth::user(), 'cartas'=>$cartas, 'backgrounds' => $backgrounds,"success"=>"Settings updated"]);
-
     }
-
 
 
 }

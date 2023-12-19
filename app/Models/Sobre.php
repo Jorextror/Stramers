@@ -83,8 +83,11 @@ class Sobre extends Model
             $tipoSobre = $this::query()->where('name',$sobre)->first();
             $tipoCartas = explode(',',$tipoSobre->type);
 
+            if ($tipoSobre->cost > $dinero) return ['status'=>400, 'value'=>'Not enough money'];
+
+
             $usuarioReal->set_money($dinero - $tipoSobre->cost);
-            $cartas = Card::where('obtainable',false);//TODO Cambiar en producción
+            $cartas = Card::where('obtainable',true);//TODO Cambiar en producción
             //Generamos el tipo de cartas que nos van a tocar en el sobre
             $tipoCartas = $this->_getCartasSobre($tipoCartas,$tipoSobre);
 

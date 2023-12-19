@@ -76,6 +76,7 @@
                 })
 
     }
+
     let imgs = JSON.parse('@json($cartas)')
     let back = JSON.parse('@json($backgrounds)')
     function selectAvatar()

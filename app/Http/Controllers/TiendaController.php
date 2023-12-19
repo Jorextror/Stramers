@@ -45,9 +45,12 @@ class TiendaController extends Controller
     {
         try {
             if ($request->has('data')) {
-                $sobre = $this->sobre->genera_sobre($request)['value'];
-                // return $sobre;
-                return view('sobre', ['cartas'=>$sobre['cards'], 'id'=>json_encode($sobre['id'])]);
+                $sobre = $this->sobre->genera_sobre($request);
+                if ($sobre['status'] == 400) {
+                    return $sobre;
+                }
+
+                return view('sobre', ['cartas'=>$sobre['value']['cards'], 'id'=>json_encode($sobre['value']['id'])]);
             }
             return null;
 

@@ -54,16 +54,6 @@ var config = {
 
     function sobre(categoria) {
 
-        if (categoria == 'normal') {
-            colorPalette.matter = [{r:166,g:166,b:166},{r:80,g:80,b:80}]
-        }
-        if (categoria == 'supersobre') {
-            colorPalette.matter = [{r:104,g:0,b:255},{r:178,g:0,b:255}]
-        }
-        if (categoria == 'megasobre') {
-            colorPalette.matter = [{r:252,g:178,b:96},{r:253,g:238,b:152}]
-        }
-
         var user = "{{ Auth::user()->nick }}"
         let datos = {
             'user': user,
@@ -76,8 +66,35 @@ var config = {
             async: false,
             data: datos,
             success: function(datos){
-                console.log(datos)
-                $('#principal').replaceWith(datos)
+                if (datos.status == 400) {
+                    const Toast = Swal.mixin({
+                                            toast: true,
+                                            position: 'top-end',
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true,
+                                            didOpen: (toast) => {
+                                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                                        }
+                                            })
+                    Toast.fire({
+                            icon: 'error',
+                            title: '{{ __("Not enough money") }}'
+                        })
+
+                }else{
+                    if (categoria == 'normal') {
+                         colorPalette.matter = [{r:166,g:166,b:166},{r:80,g:80,b:80}]
+                    }
+                    if (categoria == 'supersobre') {
+                        colorPalette.matter = [{r:104,g:0,b:255},{r:178,g:0,b:255}]
+                    }
+                    if (categoria == 'megasobre') {
+                        colorPalette.matter = [{r:252,g:178,b:96},{r:253,g:238,b:152}]
+                    }
+                    $('#principal').replaceWith(datos)
+                }
             },
             error: function(data){
                 console.log(data)

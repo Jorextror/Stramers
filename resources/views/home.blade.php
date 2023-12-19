@@ -110,7 +110,7 @@
 
     var numNotis = 0;
     function eliminar(id) {
-        $("."+id).remove()
+        $("#"+id).remove()
         $.ajax({
                 url: "{{ route('user.eliminar.notificacion') }}",
                 type: 'POST',
@@ -120,8 +120,8 @@
                 },
                 async: false,
                 success: function(){
-                numNotis--
-                $("#notis").text(numNotis)
+                    numNotis--
+                    $("#notis").text(numNotis)
 
                 },
                 error: function(data){
@@ -129,8 +129,8 @@
                 }
         })
     }
-    function aceptar(nick) {
-        $("#"+nick).remove()
+    function aceptar(nick,id) {
+        $("#"+id).remove()
         $.ajax({
                 url: "{{ route('user.new.friend') }}",
                 type: 'POST',
@@ -188,10 +188,11 @@
                 },
                 async: false,
                 success: function(data) {
+                    console.log(data)
                     if (data) {
                         let list="";
                         for (const key in data) {
-                            list += '<div id="'+data[key].data.SentBy+'" class="alert alert-secondary '+data[key].id+'">{{ __("Friend Request from") }} <strong>'+data[key].data.SentBy+'</strong> '+dateToAge(data[key].created_at)+'<button style="margin-top:-8px; margin-left:10px"  onclick=aceptar("'+data[key].data.SentBy+'") class="btn btn-success float-end" >&#x2713;</button> <button style="margin-top:-8px; margin-left:10px" onclick=eliminar("'+data[key].id+'") class="btn btn-danger float-end">&times;</button></div>'
+                            list += '<div id="'+data[key].id+'" class="alert alert-secondary '+data[key].id+'">{{ __("Friend Request from") }} <strong>'+data[key].data.SentBy+'</strong> '+dateToAge(data[key].created_at)+'<button style="margin-top:-8px; margin-left:10px"  onclick=aceptar("'+data[key].data.SentBy+'","'+data[key].id+'") class="btn btn-success float-end" >&#x2713;</button> <button style="margin-top:-8px; margin-left:10px" onclick=eliminar("'+data[key].id+'") class="btn btn-danger float-end">&times;</button></div>'
                         }
                         Swal.fire({
                                     toast:true,
@@ -323,11 +324,6 @@
                 }
             })
     }
-
-    document.addEventListener("DOMContentLoaded", function(event) {
-        getFriends()
-        getNumNotis()
-   });
 
     setInterval(() => {
         getNumNotis()

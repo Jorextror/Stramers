@@ -16,11 +16,14 @@ class AdminController extends Controller
     public function index()
     {
 
-        $desconectados = User::query()->where('id','>',0)->where('status',0)->count();
-        $conectados = User::query()->where('id','>',0)->where('status',1)->count();
-        $jugando = User::query()->where('id','>',0)->where('status',2)->count();
+        //TEST
+        $users_data = User::query()
+        ->where('id', '>', 0)->selectRaw('COUNT(CASE WHEN status = 0 THEN 1 END) as desconectados')
+        ->selectRaw('COUNT(CASE WHEN status = 1 THEN 1 END) as conectados')
+        ->selectRaw('COUNT(CASE WHEN status = 2 THEN 1 END) as jugando')
+        ->first();
 
-        $user_status_count = [$desconectados, $conectados, $jugando];
+        $user_status_count = [$users_data->desconectados, $users_data->conectados, $users_data->jugando];
 
         return view('admin.home',['data'=>json_encode($user_status_count)]);
     }
