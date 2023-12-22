@@ -56,9 +56,17 @@
 
 
 .btn-play {
-    position: relative;
-    top:5%;
-    left: 30%;
+    /* position: relative; */
+    /* top:5%;
+    left: 30%; */
+
+    margin: 0;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
     width: 150px;
     height: 50px;
     border: 1px solid #333;

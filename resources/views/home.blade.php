@@ -7,53 +7,91 @@
   position: absolute !important;
 }
 
+@media ( max-width: 1200px ){
+    .mazos-elegir{
+        left: 50%;
+        -ms-transform: translate(-50%, -5%);
+        transform: translate(-50%, -5%);
+        /* top: 20%; */
+        position: relative;
+        content: center;
+        margin: 20px;
+        float: center;
+    }
+    #mazo_seleccionado{
+        left: 50%;
+        -ms-transform: translate(-50%, -5%);
+        transform: translate(-50%, -5%);
+
+        /* width: 62%; */
+        height: 65%;
+        position: relative;
+        content: center;
+        margin: 30px;
+        bottom: 10%;
+        float: center;
+    }
+    #btn-jugar{
+        margin: 0;
+        position: absolute;
+        top: 90%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+
+    }
+
+}
+
 </style>
 {{-- dropdown SETTINGS --}}
-<a class="settings" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-    <img style="width: 30px" src="{{ asset('img/settings.svg') }}">
-</a>
-<div class="dropdown-menu dropdown-menu-end bg-dark text-light" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item text-muted" href="{{ route('user.settings') }}">
-        {{ __('Settings') }}
+<div class="float-left p-3">
+    <a class="settings" id="navbarDropdown" href="" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="text-decoration:none;">
+        <img style="width: 30px" src="{{ asset('img/settings.svg') }}">
     </a>
+    <div class="dropdown-menu dropdown-menu-end bg-dark text-light" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item text-muted" href="{{ route('user.settings') }}" style="text-decoration:none;">
+            {{ __('Settings') }}
+        </a>
 
-    @if (Auth::user()->is_sa())
-    <a class="dropdown-item text-muted" href="{{ route('admin.home') }}">
-        {{ __('Admin') }}
-    </a>
+        @if (Auth::user()->is_sa())
+        <a class="dropdown-item text-muted" href="{{ route('admin.home') }}">
+            {{ __('Admin') }}
+        </a>
 
-    @endif
-    <a class="dropdown-item text-muted" href="{{ route('logout') }}"
-    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-        {{ __('Logout') }}
-    </a>
+        @endif
+        <a class="dropdown-item text-muted" href="{{ route('logout') }}"
+        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+        </a>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
-</div>
-{{-- POPUP AMIGOS --}}
-<a href="#" onclick="openNav()" class="amigos" >
-    <img style="width: 30px" src="{{ asset('img/amigos.svg') }}">
-</a>
-{{-- POPUP OCULTO DE AMIGOS --}}
-<div id="sideNavigation" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#" onclick="RequestAmigo()"><img class="img-fluid position-absolute end-0 m-3" style="width:15%;fill:rgb(163, 163, 163); "src="{{ asset('img/user-plus-solid.svg') }}" alt="" srcset=""></a>
-    <h1 class="">{{ __('Friends') }}</h1>
-
-    <div id="friend-list" class="container" style="margin-top:55px;">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
+    {{-- POPUP AMIGOS --}}
+    <a href="#" onclick="openNav()" class="amigos" style="text-decoration:none;" >
+        <img style="width: 30px" src="{{ asset('img/amigos.svg') }}">
+    </a>
+    {{-- POPUP OCULTO DE AMIGOS --}}
+    <div id="sideNavigation" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#" onclick="RequestAmigo()"><img class="img-fluid position-absolute end-0 m-3" style="width:15%;fill:rgb(163, 163, 163); text-decoration:none;"src="{{ asset('img/user-plus-solid.svg') }}" alt="" srcset=""></a>
+        <h1 class="">{{ __('Friends') }}</h1>
+
+        <div id="friend-list" class="container" style="margin-top:55px;">
+        </div>
+    </div>
+    {{-- POPUP ALERTAS --}}
+    <a id="alert_ico" class="alertes" onclick="getNotifications()">
+        <img style="width: 30px" src="{{ asset('img/alerts.svg') }}">
+        <span id="notis" class="position-absolute top-5 start-5 translate-middle badge rounded-pill bg-danger">
+            0
+        <span class="visually-hidden">unread messages</span>
+        </span>
+    </a>
 </div>
-{{-- POPUP ALERTAS --}}
-<a id="alert_ico" class="alertes" onclick="getNotifications()">
-    <img style="width: 30px" src="{{ asset('img/alerts.svg') }}">
-    <span id="notis" class="position-absolute top-5 start-5 translate-middle badge rounded-pill bg-danger">
-        0
-    <span class="visually-hidden">unread messages</span>
-    </span>
-</a>
 {{-- box elegir mazo --}}
 <div class="mazos-elegir bg-light">
     <div class="llista_mazos">
@@ -66,10 +104,10 @@
 
 </div>
 {{-- box empezar partida --}}
-<div class="start-box bg-light">
+<div id="mazo_seleccionado" class="start-box bg-light">
     <ul class="mazo_select container-fluid list-group">
     </ul>
-    <div class="btn-play" ><a class="noselect text-decoration-none" onclick="match()">{{ __('Battle') }}</a></div>
+    <div id="btn-jugar" class="btn-play" ><a class="noselect text-decoration-none" onclick="match()">{{ __('Battle') }}</a></div>
 </div>
 @endsection
 <script>
@@ -325,6 +363,10 @@
             })
     }
 
+    document.addEventListener('DOMContentLoaded', (event)=>{
+        getNumNotis()
+        getFriends()
+    })
     setInterval(() => {
         getNumNotis()
         getFriends()

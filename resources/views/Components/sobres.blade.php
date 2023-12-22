@@ -17,11 +17,28 @@
         z-index: -1;
         top: 0;
     }
+
+    #precio{
+        left: 50%;
+        -ms-transform: translate(-50%, -5%);
+        transform: translate(-50%, -5%);
+    }
+
+
 </style>
 </div>
 <div id="principal" class="container">
     @isset($sobres)
+
+
+    <div class="card" style="width: 22rem;">
         <button id="normal" class="button-add sobre"  onclick="sobre('normal')" ><img style="width:300px;" src="{{ asset('img/normal.png') }}" alt=""></button>
+        <div class="card-body">
+            <h4 class="card-title">{{ __('Normal') }}</h4>
+            <span class="card-text"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span></div>
+      </div>
+
+
         <span class="precio"><img class="money" src="{{ asset('img/money.png') }}" alt="" srcset="">{{ $sobres['normal'] }}</span>
 
         <button id="supersobre" class="button-add sobre"  onclick="sobre('supersobre')" ><img style="width:300px;" src="{{ asset('img/super.png') }}" alt=""></button>

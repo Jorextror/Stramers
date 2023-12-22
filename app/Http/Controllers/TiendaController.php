@@ -32,6 +32,7 @@ class TiendaController extends Controller
      */
     public function index()
     {
+
         $costeSobre = $this->sobre->get_cost();
         return view('tienda', ['sobres'=>$costeSobre]);
     }
@@ -46,9 +47,9 @@ class TiendaController extends Controller
         try {
             if ($request->has('data')) {
                 $sobre = $this->sobre->genera_sobre($request);
-                if ($sobre['status'] == 400) {
-                    return $sobre;
-                }
+
+                if ($sobre['status'] == 400) return $sobre;
+
 
                 return view('sobre', ['cartas'=>$sobre['value']['cards'], 'id'=>json_encode($sobre['value']['id'])]);
             }
