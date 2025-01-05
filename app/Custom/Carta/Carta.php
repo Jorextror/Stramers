@@ -4,6 +4,7 @@ namespace App\Custom\Carta;
 use App\Models\Card;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class Carta
@@ -56,58 +57,6 @@ class Carta
 
             return ["status"=>200, "value"=>$request];
 
-        } catch (Exception $e) {
-            return ["status"=>500,"value"=>$e];
-
-        }
-    }
-
-    public static function genera_sobre(Request $request)
-    {
-        try {
-            $cartas = [];
-            $sobre = $request['data'];
-            switch ($sobre) {
-                case 'normal':
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','comun')
-                    ->orwhere('category','pocoComun')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
-
-                case 'supersobre':
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','comun')
-                    ->orwhere('category','pocoComun')
-                    ->orwhere('category','epica')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
-
-                case 'megasobre':
-                    $cartas = Card::where('obtainable',true)
-                    ->where('category','pocoComun')
-                    ->orwhere('category','epica')
-                    ->orwhere('category','legendaria')
-                    ->inRandomOrder()
-                    ->limit(5)
-                    ->get()
-                    ->toArray();
-                    break;
-                default:
-                    return ['status'=>404, 'value'=>'Error, sobre no encontrado'];
-            }
-
-            $id = array_map(function($carta){
-                return $carta['id'];
-            },$cartas);
-
-            return ['status'=>200, 'value'=>['id'=>$id,'cards'=>$cartas]];
         } catch (Exception $e) {
             return ["status"=>500,"value"=>$e];
 

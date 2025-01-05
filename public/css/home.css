@@ -3,10 +3,10 @@
     z-index: 0;
     position: fixed;
     left: 5px;
-    width: 65%;
-    height: 85%;
+    width: 60%;
+    height: 65%;
     margin-left: 10px;
-    border: solid 2px purple;
+    /* border: solid 2px purple; */
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
     overflow-y: scroll;
@@ -15,7 +15,7 @@
 .start-box{
     position: fixed;
     width: 30%;
-    height: 85%;
+    height: 65%;
     right: 5px;
     margin-right: 10px;
     padding: 5px 5px;
@@ -25,12 +25,14 @@
     box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
 }
 .mazo_select{
-    height: 90%;
+    height: 80%;
     margin: 10px;
-    padding: 5px 5px;
-    border: solid 2px purple;
+    padding: 5px 5px 5px 5px;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.582) 1px 0 10px; */
+    /* position: fixed; */
+    overflow-y: scroll;
+    margin: 5px;
 }
 .start{
     margin: 10px 20%;
@@ -51,3 +53,74 @@
 #img_mazo{
     margin: 5px 0;
 }
+
+
+.btn-play {
+    /* position: relative; */
+    /* top:5%;
+    left: 30%; */
+
+    margin: 0;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    width: 150px;
+    height: 50px;
+    border: 1px solid #333;
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    transition: 1s;
+
+  }
+
+  .btn-play::before, .btn-play::after {
+    position: absolute;
+    background: #eee;
+    z-index: -1;
+    transition: 1s;
+    content: '';
+  }
+
+  .btn-play::before {
+    height: 50px;
+    width: 130px;
+  }
+
+  .btn-play::after {
+    width: 150px;
+    height: 30px;
+  }
+
+  .noselect {
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+  }
+
+  .btn-play:hover::before {
+    width: 0px;
+    background: #fff;
+  }
+
+  .btn-play:hover::after {
+    height: 0px;
+    background: #fff;
+  }
+
+  .btn-play:hover {
+    background: #fff;
+  }
+

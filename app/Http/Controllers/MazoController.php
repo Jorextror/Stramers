@@ -15,9 +15,13 @@ class MazoController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $deck;
+    private $user;
+    public function __construct(Deck $deck, User $user)
     {
         $this->middleware('auth');
+        $this->deck = $deck;
+        $this->user = $user;
     }
 
      /**
@@ -40,6 +44,23 @@ class MazoController extends Controller
    {
        return view('createMazo', ['cartas'=>Auth::user()->cards]);
    }
+    /**
+    * Devuelve la vista updateMazo
+    *
+    * @return view
+    */
+   public function update($id)
+   {
+        $mazo = $this->deck->get_deck_by_id($id);
+        $mazoName = $mazo['value']->name;
+        $mazo = $mazo['value']->cards->toArray();
+        $mazoJSON = json_encode($mazo);
+        $cards = array_map(function($carta){
+            return $carta['id'];
+        }, $mazo);
+
+        return view('updateMazo', ['cartas'=>Auth::user()->cards, 'mazo'=>$mazo, 'idCartasMazo'=>$cards, 'mazoJSON'=>$mazoJSON, 'mazoName'=>$mazoName]);
+   }
 
     /**
     * Crea el mazo para el usuario
@@ -53,4 +74,37 @@ class MazoController extends Controller
     }
        return null;
    }
+
+    /**
+    * Actualiza el mazo para el usuario
+    *
+    * @return view
+    */
+   public function updateDeck(Request $request)
+   {
+    if ($request->hasAny('cards')) {
+        return $this->deck->updateDeck($request);
+    }
+       return null;
+   }
+
+   /**
+    * Elimina el mazo pasado por parámetro
+    */
+   public function remove(Request $request)
+   {
+    if ($request->has('id')) {
+        return $this->deck->remove($request);
+    }
+    return null;
+   }
+
+   public function select(Request $request)
+   {
+    if ($request->has('name')) {
+        return $this->user->select_mazo($request);
+    }
+    return null;
+   }
+
 }

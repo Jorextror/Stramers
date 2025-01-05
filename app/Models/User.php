@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Custom\User\UserValidator;
+use App\Jobs\MatchMaking;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +33,9 @@ class User extends Authenticatable
         'money',
         'nick',
         'superadmin',
+        'avatar',
+        'background_profile',
+        'socket_id'
     ];
 
     /**
@@ -70,6 +75,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class,'user_user','user_id_slave','user_id_master');
     }
 
+    public function backgrounds()
+    {
+        return $this->belongsToMany(Background::class);
+    }
+
     /**
     * @return money devuelve el dinero del usuario
     */
@@ -83,7 +93,7 @@ class User extends Authenticatable
     }
 
      /**
-     * @return money devuelve el dinero del usuario
+     * @return money actualiza el dinero del usuario
      */
     public function set_money($cantidad=0)
     {
@@ -94,6 +104,22 @@ class User extends Authenticatable
             $this->save();
         } catch (Exception $e) {
             return ['status'=>500,'value'=>$e];
+        }
+    }
+    /**
+     * Asigna socket id al usuario
+     * @param socketId String del socket ID
+     * @return void
+     */
+    public function set_socket_id($socketId = null)
+    {
+        try
+        {
+            $this->socket_id = $socketId;
+            $this->save();
+        } catch (Exception $e)
+        {
+            return null;
         }
     }
 
@@ -113,14 +139,19 @@ class User extends Authenticatable
     public static function AddCard(Request $request)
     {
         try {
-            if ($request->has('data')) {
+            if ($request->has('data') && $request->has('user')) {
                 $money = 0;
                 $user = User::query()->where('nick',$request['user'])->first();
                 $request_cards = $request['data'];
                 //Hacemos una búsqueda de las IDs de las cartas que actualmente tiene el usuario
-                $cartas_user = $user->cards->toQuery()->pluck('id')->toArray();
-                //Comparamos las cartas, las que el usuario ya tiene no se añadirán
-                $cartas_nuevas = array_diff($request_cards, $cartas_user);
+                if(count($user->cards)>0)
+                {
+                    $cartas_user = $user->cards->toQuery()->pluck('id')->toArray();
+                    //Comparamos las cartas, las que el usuario ya tiene no se añadirán
+                    $cartas_nuevas = array_diff($request_cards, $cartas_user);
+                }else{
+                    $cartas_nuevas = $request_cards;
+                }
                 // Añade todas las tarjetas nuevas al usuario de una sola vez
                 $user->cards()->attach($cartas_nuevas);
 
@@ -143,7 +174,7 @@ class User extends Authenticatable
                             $money+=400;
                         }
 
-                        if($categories[$i]=='epica'){
+                        if($categories[$i]=='comun'){
                             $money+=300;
                         }
                     }
@@ -152,10 +183,11 @@ class User extends Authenticatable
                 }
 
                 return ['status'=>200, 'value'=>$money];
-                // return ['status'=>200, 'value'=>$tarjetas_nuevas];
+                // return ['status'=>200, 'value'=>$tarjetas_nuevas]; //DEBUG
             }
             return null;
         } catch (Exception $e) {
+            // return ['status'=>500, 'value'=>$e->getMessage()];
             return ['status'=>500, 'value'=>$e->getMessage()];
         }
     }
@@ -178,8 +210,125 @@ class User extends Authenticatable
             }
             return null;
         } catch (Exception $e) {
-            // return ['status'=>500, 'value'=>$e->getMessage()];
+            // return ['status'=>500, 'value'=>$e->getMessage()]; //DEBUG
             return false;
         }
     }
+
+    /**
+     * Cambia el estatus al usuario que pasamos por parámetro
+     * @param $status
+     * @param $user Usuario a cambiar el status
+     * @return bool
+     */
+    public function changeStatus($status)
+    {
+        try {
+
+            if (is_int($status)) {
+               $this->status = $status;
+               $this->save();
+               return true;
+            }
+            return false;
+
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public function updateUser(Request $request)
+    {
+        try {
+            if ($request->has('name')
+            && $request->has('nick'))
+            {
+                $updates = ['name'=>$request->input('name'),'nick'=>$request->input('nick')];
+                $user = User::query()->where('nick',$request->input('nick'));
+
+                if ($request->has('avatar') && $request->input('avatar')!=null) {
+                    $img = Card::query()->where('name',$request->input('avatar'))->first();
+                    $updates['avatar'] =  $img->img;
+                }
+
+                if ($request->has('background') && $request->input('background')!=null) {
+                    $back = Background::query()->where('name', $request->input('background'))->first();
+                    $updates['background_profile'] = $back->id;
+                }
+
+                $user->update($updates);
+
+                return $user;
+            }
+        } catch (Exception $e) {
+            return null;
+            // return $e->getMessage();
+        }
+    }
+
+    /**
+     * Selecciona el mazo que utilizará el usuario por defecto
+     */
+    public function select_mazo(Request $request)
+    {
+        try
+        {
+            if ($request->has('name')) {
+                $mazo = Deck::query()
+                ->where('name',$request->input('name'))
+                ->where('user_id',Auth::user()->id)
+                ->first();
+                if($mazo->selected == 1)return false;
+
+                $desMazo = Deck::query()
+                                ->where('selected',1)
+                                ->where('user_id',Auth::user()->id)
+                                ->first();
+
+                if($desMazo) $desMazo->update(['selected'=>0]);
+
+                $mazo->update(['selected'=>1]);
+                return $mazo->cards;
+            }
+            return false;
+        } catch (Exception $e)
+        {
+            return null;
+            // return $e->getMessage();
+        }
+    }
+
+    public function get_selected_mazo()
+    {
+        try
+        {
+            $selected = Deck::query()
+                        ->where('selected', 1)
+                        ->where('user_id',Auth::user()->id)
+                        ->first();
+            return $selected;
+
+        } catch (Exception $e)
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Cambia el status del jugador al pasado por parámetro
+     */
+    public function set_status($status)
+    {
+        try
+        {
+            $this->status = $status;
+            $this->save();
+
+
+        } catch(Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
 }

@@ -11,9 +11,10 @@ class Sobres extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $sobres;
+    public function __construct($sobres = [])
     {
-        //
+        $this->sobres = $sobres;
     }
 
     /**

@@ -48,7 +48,7 @@ class Card extends Model
     {
         try {
             return['status'=>200,'value'=> Card::query()
-            ->with('name')
+            ->where('obtainable', true)
             ->get()
             ];
 
@@ -101,7 +101,6 @@ class Card extends Model
             return ['status'=>500,'value'=>$e];
         }
     }
-    //TODO añadir más maneras de buscar cartas
 
     /**
      * @param request Información del formulario
