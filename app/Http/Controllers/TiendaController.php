@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Carta\Carta;
+use App\Models\Sobre;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TiendaController extends Controller
 {
@@ -13,9 +16,13 @@ class TiendaController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public $sobre;
+    public function __construct(User $user, Sobre $sobre)
     {
         $this->middleware('auth');
+        $this->user = $user;
+        $this->sobre = $sobre;
     }
 
     /**
@@ -25,7 +32,9 @@ class TiendaController extends Controller
      */
     public function index()
     {
-        return view('tienda');
+
+        $costeSobre = $this->sobre->get_cost();
+        return view('tienda', ['sobres'=>$costeSobre]);
     }
 
      /**
@@ -35,7 +44,21 @@ class TiendaController extends Controller
      */
     public function sobre(Request $request)
     {
-        return Carta::genera_sobre($request)['value'];
+        try {
+            if ($request->has('data')) {
+                $sobre = $this->sobre->genera_sobre($request);
+
+                if ($sobre['status'] == 400) return $sobre;
+
+
+                return view('sobre', ['cartas'=>$sobre['value']['cards'], 'id'=>json_encode($sobre['value']['id'])]);
+            }
+            return null;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
     }
 
     /**

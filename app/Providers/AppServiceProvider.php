@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Custom\FriendRequest\RemoveNotification;
+use App\Custom\FriendRequest\NotificationRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(NotificationRepository::class, RemoveNotification::class);
+
     }
 
     /**
