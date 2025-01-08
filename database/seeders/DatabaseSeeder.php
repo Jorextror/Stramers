@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Card;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,10 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            BasicsSeeder::class,
-            AdminSeeder::class
-        ]);
+        Card::factory(100)->create();
+        // $this->call([
+        //     BasicsSeeder::class,
+        //     AdminSeeder::class
+        // ]);
 
     }
 }

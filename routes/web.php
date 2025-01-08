@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/select', [MazoController::class, 'select'])->name('user.mazo.select');
 
         Route::get('/match', [PrePartidaController::class, 'getInMatchMaking'])->name('user.match');
-        // Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
+        Route::get('/vs', [PrePartidaController::class, 'index'])->name('vs');
     });
 
     //Rutas Mazos

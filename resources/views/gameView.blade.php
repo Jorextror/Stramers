@@ -112,7 +112,7 @@ class Game extends Phaser.Scene{
         this.SocketHandler = new SocketHandler(this);
         this.UIHandler = new UIHandler(this);
 
-        const socket = this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/jpAnWhjrXzs2vUef3HFCDPsUrdEpAS6m/game', '{{ csrf_token() }}', '{{ Auth::user()->nick }}')
+        const socket = this.SocketHandler.connect('{{ env("SOCKET_APP_URL") }}/env("SOCKET_APP_KEY")/game', '{{ csrf_token() }}', '{{ Auth::user()->id }}')
         this.SocketHandler.main(socket);
     }
     update() {

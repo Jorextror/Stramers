@@ -1,3 +1,6 @@
 *
 !public/
 !.gitignore
+!testing
+!testing/test.jpg
+
