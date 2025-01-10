@@ -8,7 +8,7 @@
   export default {
     data() {
       return {
-        message: 'Hola Vue'
+        message: 'vue'
       }
     }
   }
